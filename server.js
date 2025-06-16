@@ -4,7 +4,7 @@ import connectDB from "./config/db.js";
 import routes from "./routes/index.routes.js";
 
 dotenv.config();
-connectDB();
+// connectDB();
 
 const app = express();
 app.use(express.json());
