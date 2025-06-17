@@ -17,7 +17,7 @@ const seedAirports = async () => {
     const jsonData = JSON.parse(rawData);
 
     const airports = jsonData.Airports;
-    console.log(airports);
+    
     await Airport.insertMany(airports);
     console.log("New airport data inserted successfully");
 

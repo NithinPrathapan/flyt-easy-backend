@@ -1,4 +1,4 @@
-// models/Airport.js
+
 import mongoose from "mongoose";
 
 const airportSchema = new mongoose.Schema({

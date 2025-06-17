@@ -3,6 +3,6 @@ import { generateToken } from "../controllers/signature.controller.js";
 
 const router = express.Router();
 
-router.post("/get-token", generateToken);
+router.post("/", generateToken);
 
 export default router;

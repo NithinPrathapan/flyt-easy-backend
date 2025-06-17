@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.use("/flight", flightRoutes);
 router.use("/signature", signatureRoutes);
-router.use("/websettings", webSettingsRoutes);
-router.use("/airports", airportRoutes);
+router.use("/websetting", webSettingsRoutes);
+router.use("/airport", airportRoutes);
 export default router;

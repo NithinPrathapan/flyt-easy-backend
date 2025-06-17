@@ -2,17 +2,27 @@ import axios from "axios";
 
 export const getWebSettings = async (req, res) => {
   try {
-    const { TUI, ClientID } = req.body;
-    const payload = { TUI, ClientID };
+    const { ClientID, TUI } = req.body;
 
-    const { data } = await axios.post(
+    const payload = { ClientID, TUI };
+
+    const response = await axios.post(
       `${process.env.UTILS_URL}/Utils/WebSettings`,
-      payload
+      payload,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     );
-    res.status(200).json(data);
+
+    return res.status(200).json({
+      success: true,
+      data: response.data,
+    });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch web settings", error: err.message });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch web settings",
+      error: err.message,
+    });
   }
 };
