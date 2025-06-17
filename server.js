@@ -1,15 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import routes from "./routes/index.routes.js";
+import indexRoutes from "./routes/index.routes.js";
 
 dotenv.config();
-// connectDB();
+connectDB();
 
 const app = express();
 app.use(express.json());
 
-app.use(routes);
+app.use("/api", indexRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({

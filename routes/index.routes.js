@@ -1,11 +1,9 @@
 import express from "express";
+import flightRoutes from "./flight.routes.js";
 import signatureRoutes from "./signature.routes.js";
-import webSettingsRoutes from "./websetting.routes.js";
 
 const router = express.Router();
 
-router.use("/api/utils", signatureRoutes);
-router.use("/api/utils", webSettingsRoutes);
-
-
+router.use("/flight", flightRoutes);
+router.use("/signature", signatureRoutes);
 export default router;

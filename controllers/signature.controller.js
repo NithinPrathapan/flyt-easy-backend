@@ -1,49 +1,32 @@
-export const generateSignature = async (req, res) => {
+import axios from "axios";
+
+export const generateToken = async (req, res) => {
   try {
-    const { MerchantID, ApiKey, ClientID, Password, AgentCode, BrowserKey } =
-      req.body;
+    const payload = {
+      MerchantID: process.env.MERCHANT_ID,
+      ApiKey: process.env.API_KEY,
+      ClientID: process.env.CLIENT_ID,
+      Password: process.env.PASSWORD,
+      AgentCode: "",
+      BrowserKey: process.env.BROWSER_KEY,
+      Key: process.env.KEY
+    };
 
-    if (
-      !MerchantID ||
-      !ApiKey ||
-      !ClientID ||
-      !Password ||
-      !AgentCode ||
-      !BrowserKey
-    ) {
-      return res.status(400).json({
-        message: "Missing required fields",
-      });
+    const response = await axios.post(process.env.SIGNATURE_API, payload, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const token = response.data?.Token;
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Token not received" });
     }
 
-    const requiredFields = [
-      "MerchantID",
-      "ApiKey",
-      "ClientID",
-      "Password",
-      "AgentCode",
-      "BrowserKey",
-    ];
-
-    const missingFields = requiredFields.filter(
-      (field) => !(field in req.body)
-    );
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        message: "Missing required fields",
-        missingFields,
-      });
-    }
-
-    const signature = await fetchSignatureToken(req.body);
-
-    res.status(200).json(signature);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Failed to generate signature",
-      error: error.message,
+    return res.status(200).json({ success: true, token });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate token",
+      error: err.message,
     });
   }
 };

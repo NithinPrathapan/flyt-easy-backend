@@ -1,7 +1,8 @@
-import express from 'express';
-import { generateSignature } from '../controllers/signature.controller.js';
+import express from "express";
+import { generateToken } from "../controllers/signature.controller.js";
+
 const router = express.Router();
 
-router.post('/signature', generateSignature);
+router.post("/get-token", generateToken);
 
 export default router;
