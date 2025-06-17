@@ -1,75 +1,112 @@
+// controllers/flightController.js
 import axios from "axios";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-const generateSignature = async () => {
-  const signaturePayload = {
-    MerchantID: process.env.MERCHANT_ID,
-    ApiKey: process.env.API_KEY,
-    ClientID: process.env.CLIENT_ID,
-    Password: process.env.PASSWORD,
-    AgentCode: process.env.AGENT_CODE,
-    BrowserKey: process.env.BROWSER_KEY,
-    Key: process.env.KEY,
-  };
-
-  const response = await axios.post(
-    process.env.SIGNATURE_URL,
-    signaturePayload
-  );
-  return response.data.token;
-};
-
-export const searchFlights = async (req, res) => {
+export const expressSearchFlights = async (req, res) => {
   try {
-    const { journeyType, segments, cabinClass = "1", paxInfo } = req.body;
+    const {
+      tripType, // 'oneway', 'round', 'multi'
+      from,
+      to,
+      departure,
+      returnDate,
+      segments, // for multi-city: [{ from, to, date }]
+      adults,
+      children,
+      infants,
+      cabin, // 'E', 'B', etc.
+      directOnly,
+      refundableOnly,
+      airlines = ""
+    } = req.body;
 
-    const token = await generateSignature();
+    // Get the decoded clientID from middleware (from signature token)
+    const clientID = req.user?.client_id;
+    if (!clientID) {
+      return res.status(401).json({ success: false, message: "Unauthorized: Missing ClientID" });
+    }
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+    // Construct trip segments based on tripType
+    let Trips = [];
+
+    if (tripType === "oneway") {
+      Trips.push({
+        From: from,
+        To: to,
+        OnwardDate: departure,
+        TUI: ""
+      });
+    } else if (tripType === "round") {
+      Trips.push(
+        {
+          From: from,
+          To: to,
+          OnwardDate: departure,
+          TUI: ""
+        },
+        {
+          From: to,
+          To: from,
+          OnwardDate: returnDate,
+          TUI: ""
+        }
+      );
+    } else if (tripType === "multi" && Array.isArray(segments)) {
+      Trips = segments.map((seg) => ({
+        From: seg.from,
+        To: seg.to,
+        OnwardDate: seg.date,
+        TUI: ""
+      }));
+    } else {
+      return res.status(400).json({ success: false, message: "Invalid tripType or segments" });
+    }
+
+    // Compose ExpressSearch payload
+    const payload = {
+      ADT: adults,
+      CHD: children,
+      INF: infants,
+      Cabin: cabin,
+      Source: "CF",
+      Mode: "AS",
+      ClientID: clientID,
+      TUI: "",
+      FareType: "ON",
+      Trips,
+      Parameters: {
+        Airlines: airlines,
+        GroupType: "",
+        Refundable: refundableOnly || false,
+        IsDirect: directOnly || false,
+        IsStudentFare: false,
+        IsNearbyAirport: false
+      }
     };
 
-    const requestPayload = {
-      JourneyType: journeyType.toString(), // '1', '2', or '3'
-      Segments: segments.map((seg) => ({
-        Origin: seg.origin,
-        Destination: seg.destination,
-        PreferredDepartureTime: `${seg.date}T00:00:00`,
-      })),
-      CabinClass: cabinClass, // '1' for economy
-      PreferredAirline: "",
-      Sources: null,
-      PaxInfo: {
-        ADULT: paxInfo?.ADULT || 1,
-        CHILD: paxInfo?.CHILD || 0,
-        INFANT: paxInfo?.INFANT || 0,
-      },
-      JourneyDetails: null,
-      ChannelID: process.env.CHANNEL_ID,
-    };
-
+    // Make the external API call
     const response = await axios.post(
-      process.env.SEARCH_FLIGHT_URL,
-      requestPayload,
-      { headers }
+      `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${req.user?.token}`,
+          "Content-Type": "application/json"
+        }
+      }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: response.data,
+      message: "Express Search Results Retrieved",
+      data: response.data
     });
+
   } catch (error) {
-    console.error(
-      "Flight Search Error:",
-      error?.response?.data || error.message
-    );
-    res.status(500).json({
+    console.error("ExpressSearch Error:", error?.response?.data || error.message);
+    return res.status(500).json({
       success: false,
-      message: "Flight search failed",
-      error: error?.response?.data || error.message,
+      message: "ExpressSearch failed",
+      error: error?.response?.data || error.message
     });
   }
 };
