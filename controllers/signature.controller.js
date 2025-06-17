@@ -9,7 +9,7 @@ export const generateToken = async (req, res) => {
       Password: process.env.PASSWORD,
       AgentCode: "",
       BrowserKey: process.env.BROWSER_KEY,
-      Key: process.env.KEY
+      Key: process.env.KEY,
     };
 
     const response = await axios.post(process.env.SIGNATURE_API, payload, {
@@ -18,7 +18,9 @@ export const generateToken = async (req, res) => {
 
     const token = response.data?.Token;
     if (!token) {
-      return res.status(401).json({ success: false, message: "Token not received" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Token not received" });
     }
 
     return res.status(200).json({ success: true, token });

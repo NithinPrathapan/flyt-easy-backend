@@ -14,7 +14,7 @@
     "start": "nodemon server.js",
     "dev": "node server.js",
     "build": "npm install && npm install -g nodemon",
-    "import-airports": "node utils/importAirport.js"
+    "import-airports": "node seed/seedAirports.js"
   },
   "keywords": [],
   "author": "",
