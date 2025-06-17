@@ -19,8 +19,10 @@ export const expressSearchFlights = async (req, res) => {
       airlines = ""
     } = req.body;
 
-    // Get the decoded clientID from middleware (from signature token)
-    const clientID = req.user?.client_id;
+    // Get the decoded clientID from middleware (from signature token)  no middleware yet
+    // const clientID = req.user?.client_id;
+    const clientID = req.body.ClientID || req.headers['clientid'];  //temporary fix
+
     if (!clientID) {
       return res.status(401).json({ success: false, message: "Unauthorized: Missing ClientID" });
     }
