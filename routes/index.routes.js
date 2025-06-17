@@ -1,5 +1,5 @@
 import express from "express";
-import flightRoutes from "./flight.routes.js";
+import flightRoutes from "./searchFlights.routes.js";
 import signatureRoutes from "./signature.routes.js";
 import webSettingsRoutes from "./websetting.routes.js";
 import airportRoutes from "./airport.routes.js";
