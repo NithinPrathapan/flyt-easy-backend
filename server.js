@@ -19,7 +19,9 @@ app.use(
 );
 app.use("/api", indexRoutes);
 
-
+app.get("/", (req, res) => {
+  res.render("index.html");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
