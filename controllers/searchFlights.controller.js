@@ -16,15 +16,19 @@ export const expressSearchFlights = async (req, res) => {
       cabin, // 'E', 'B', etc.
       directOnly,
       refundableOnly,
-      airlines = ""
+      airlines = "",
     } = req.body;
 
     // Get the decoded clientID from middleware (from signature token)  no middleware yet
     // const clientID = req.user?.client_id;
-    const clientID = req.body.ClientID || req.headers['clientid'];  //temporary fix
+    const clientID = req.body.ClientID || req.headers["clientid"]; //temporary fix
+    const tui = req.body.TUI || req.headers["tui"]; //temporary fix
+    const token = req.headers["authorization"];
 
     if (!clientID) {
-      return res.status(401).json({ success: false, message: "Unauthorized: Missing ClientID" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: Missing ClientID" });
     }
 
     // Construct trip segments based on tripType
@@ -35,7 +39,7 @@ export const expressSearchFlights = async (req, res) => {
         From: from,
         To: to,
         OnwardDate: departure,
-        TUI: ""
+        TUI: "",
       });
     } else if (tripType === "round") {
       Trips.push(
@@ -43,13 +47,13 @@ export const expressSearchFlights = async (req, res) => {
           From: from,
           To: to,
           OnwardDate: departure,
-          TUI: ""
+          TUI: "",
         },
         {
           From: to,
           To: from,
           OnwardDate: returnDate,
-          TUI: ""
+          TUI: "",
         }
       );
     } else if (tripType === "multi" && Array.isArray(segments)) {
@@ -57,10 +61,12 @@ export const expressSearchFlights = async (req, res) => {
         From: seg.from,
         To: seg.to,
         OnwardDate: seg.date,
-        TUI: ""
+        TUI: "",
       }));
     } else {
-      return res.status(400).json({ success: false, message: "Invalid tripType or segments" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid tripType or segments" });
     }
 
     // Compose ExpressSearch payload
@@ -81,8 +87,8 @@ export const expressSearchFlights = async (req, res) => {
         Refundable: refundableOnly || false,
         IsDirect: directOnly || false,
         IsStudentFare: false,
-        IsNearbyAirport: false
-      }
+        IsNearbyAirport: false,
+      },
     };
 
     // Make the external API call
@@ -91,24 +97,28 @@ export const expressSearchFlights = async (req, res) => {
       payload,
       {
         headers: {
-          Authorization: `Bearer ${req.user?.token}`,
-          "Content-Type": "application/json"
-        }
+          Authorization: `Bearer ${token}`,
+          TUI: tui,
+          ClientID: clientID,
+          "Content-Type": "application/json",
+        },
       }
     );
 
     return res.status(200).json({
       success: true,
       message: "Express Search Results Retrieved",
-      data: response.data
+      data: response.data,
     });
-
   } catch (error) {
-    console.error("ExpressSearch Error:", error?.response?.data || error.message);
+    console.error(
+      "ExpressSearch Error:",
+      error?.response?.data || error.message
+    );
     return res.status(500).json({
       success: false,
       message: "ExpressSearch failed",
-      error: error?.response?.data || error.message
+      error: error?.response?.data || error.message,
     });
   }
 };
