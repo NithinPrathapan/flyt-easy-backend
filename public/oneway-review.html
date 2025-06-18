@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlytEasy</title>
+    <link rel="icon" type="image/svg+xml" href="./assets//img/favicon.png" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/oneway-review.css"/>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container py-2 px-md-3 px-2 main-container">
+        <!-- Header with back button -->
+        <nav class="navbar d-flex align-items-center mb-1 fixed-top header-sec px-2">
+            <i data-lucide="arrow-left" class="me-2 cursor-pointer" id="backButton"></i>
+            <h6 class="header-text mb-0">Review your Itinerary</h6>
+        </nav>
+
+        <!-- Flight Route Card -->
+        <div class="card mb-2 border-0 shadow-sm route-card bg-primary mt-5">
+            <div class="card-body p-3 text-white">
+                <div class="d-flex align-items-center">
+                    <i data-lucide="plane" class="flight-icon me-2"></i>
+                    <h6 class="fw-bold mb-0">Mumbai → Sharjah</h6>
+                </div>
+                <p class="small mb-0 mt-1">30 Apr'25 | 1 Stop | 24h 10m</p>
+            </div>
+        </div>
+
+        <!-- Itinerary Details -->
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body p-0">
+                <!-- First Flight -->
+                <div class="p-3">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <h6 class="fw-bold mb-0">23:00</h6>
+                            <p class="small text-muted mb-0">Wed, 30 Apr 25</p>
+                            <p class="text-muted smaller-text">Chhatrapati Shivaji International airport</p>
+                        </div>
+                        <div class="col text-end">
+                            <h6 class="fw-bold mb-0 flight-destination">Mumbai [BOM]</h6>
+                            <p class="text-muted smaller-text mt-1">Terminal 1</p>
+                        </div>
+                    </div>
+
+                    <div class="flight-line">
+                        <div class="d-flex align-items-center">
+                            <div class="flight-duration py-1">
+                                <span class="me-1">1h 35m</span>
+                                <i data-lucide="plane-takeoff" class="me-2"></i>
+                                <div class="airline-info ms-2">
+                                    <span class="airline-logo">IN</span>
+                                    <span>IndiGo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-1">
+                        <div class="col">
+                            <h6 class="fw-bold mb-0">00:35</h6>
+                            <p class="small text-muted mb-0">Thu, 01 May 25</p>
+                            <p class="text-muted smaller-text">Rajiv Gandhi International Airport</p>
+                        </div>
+                        <div class="col text-end">
+                            <h6 class="fw-bold mb-0 flight-destination">Hyderabad [HYD]</h6>
+                            <p class="text-muted smaller-text mt-1">Terminal 3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layover -->
+                <div class="layover p-1">
+                    <div class="d-flex justify-content-center layover">
+                        <i data-lucide="clock" class="me-2"></i>
+                        <p class="layover-text mb-0">18h 35m Layover @ Hyderabad</p>
+                    </div>
+                </div>
+
+                <!-- Second Flight -->
+                <div class="p-3">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <h6 class="fw-bold mb-0">19:10</h6>
+                            <p class="small text-muted mb-0">Thu, 01 May 25</p>
+                            <p class="text-muted smaller-text">Rajiv Gandhi International Airport</p>
+                        </div>
+                        <div class="col text-end">
+                            <h6 class="fw-bold mb-0 flight-destination">Hyderabad [HYD]</h6>
+                            <p class="text-muted smaller-text mt-1">Terminal 2</p>
+                        </div>
+                    </div>
+
+                    <div class="flight-line">
+                        <div class="d-flex align-items-center">
+                            <div class="flight-duration py-1">
+                                <span class="me-1">4h</span>
+                                <i data-lucide="plane-takeoff" class="me-2"></i>
+                                <div class="airline-info ms-2">
+                                    <span class="airline-logo">IN</span>
+                                    <span>IndiGo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-1">
+                        <div class="col">
+                            <h6 class="fw-bold mb-0">21:40</h6>
+                            <p class="small text-muted mb-0">Thu, 01 May 25</p>
+                            <p class="text-muted smaller-text">Sharjah</p>
+                        </div>
+                        <div class="col text-end">
+                            <h6 class="fw-bold mb-0 flight-destination">Sharjah [SHJ]</h6>
+                            <p class="text-muted smaller-text mt-1">Terminal 4</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="border-top">
+                    <div class="p-3 d-flex justify-content-between align-items-center border-bottom cursor-pointer" id="importantToggle">
+                        <p class="mb-0 fw-bold important-note" style="font-size: .8rem;">IMPORTANT:</p>
+                        <i data-lucide="chevron-right" id="importantChevron"></i>
+                    </div>
+                    <div class="px-3 pb-3 pt-1 small text-muted collapse" id="importantContent">
+                        This is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Baggage Policy -->
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="px-3 py-2 d-flex justify-content-between align-items-center border-bottom">
+                    <h6 class="fw-bold mb-0">Baggage Policy</h6>
+                    <i data-lucide="chevron-right" class="cursor-pointer" onclick="openFareRulesModal()"></i>
+                </div>
+                <div class="p-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="baggage-icon cabin me-2">💼</div>
+                        <p class="mb-0 small">Cabin Baggage - Adult-7 Kg</p>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="baggage-icon checkin me-2">🧳</div>
+                        <p class="mb-0 small">Check-In Baggage - Adult-30 Kg</p>
+                    </div>
+                    <div class="excess-baggage p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <div class="baggage-icon excess me-2">🧳</div>
+                                <div>
+                                    <p class="text-primary fw-semibold mb-0 small">Got Excess Luggage?</p>
+                                    <p class="smaller-text text-muted mb-0">Don't stress, buy extra check-in baggage allowance at best rates!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancellation Policy -->
+        <div class="card border-0 shadow-sm" style="margin-bottom: 6rem;">
+            <div class="card-body p-0">
+                <div class="px-3 py-2 d-flex justify-content-between align-items-center border-bottom">
+                    <h6 class="fw-bold mb-0">Cancellation Refund Policy</h6>
+                    <i data-lucide="chevron-right" class="cursor-pointer" onclick="openFareRulesModal()"></i>
+                </div>
+                <div class="p-3">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="text-muted small mb-0">Cancellation Between (IST) :</p>
+                        </div>
+                        <div class="col text-end">
+                            <p class="text-muted small mb-0">Cancellation Penalty :</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <p class="small mb-0">4 HRS - 24 HRS To Departure</p>
+                        <div class="d-flex align-items-center">
+                            <div class="penalty-indicator red me-1"></div>
+                            <p class="fw-semibold mb-0">9000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <p class="small mb-0">1 Days - 3 Days To Departure</p>
+                        <div class="d-flex align-items-center">
+                            <div class="penalty-indicator yellow me-1"></div>
+                            <p class="fw-semibold mb-0">6500</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <p class="small mb-0">3 Days - 999 Days To Departure</p>
+                        <div class="d-flex align-items-center">
+                            <div class="penalty-indicator green me-1"></div>
+                            <p class="fw-semibold mb-0">5500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue Button -->
+        <div class="fixed-bottom bg-white border-top px-3 py-2">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="d-flex flex-column justify-content-between">
+                        <p class="small fw-semibold mb-0 text-muted">Total Amount</p>
+                        <p class="fs-5 fw-bold mb-0">₹ 26,234 <i data-lucide="info" class="ms-1 text-danger cursor-pointer mb-1" onclick="openFareSummaryModal()"></i></p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-primary w-100 py-2 fw-medium" onclick="ContinueBtn()">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fare Summary Modal -->
+    <div class="modal fade fare-summary-modal" id="fareSummaryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="modal-title w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">Fare Summary</span>
+                            <i data-lucide="x" class="cursor-pointer" onclick="closeFareSummaryModal()"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body pt-3">
+                    <!-- Base Fare Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Base Fare</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Adult (2 x ₹ 27,302)</div>
+                            <div>₹ 54,604</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Child (1 x ₹ 27,302)</div>
+                            <div>₹ 27,302</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Base Fare</div>
+                            <div>₹ 81,906</div>
+                        </div>
+                    </div>
+
+                    <!-- Tax & Charges Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Tax & Charges</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">User Dev. Fee</div>
+                            <div>₹ 663</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Service Tax</div>
+                            <div>₹ 75</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Airline Misc</div>
+                            <div>₹ 8,391</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Tax & Charges</div>
+                            <div>₹ 9,129</div>
+                        </div>
+                    </div>
+
+                    <!-- Addons Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Addons</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted d-flex align-items-center">
+                                Baggage
+                                <span class="ms-2 badge rounded-circle bg-secondary text-white" style="width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center;">?</span>
+                            </div>
+                            <div>₹ 400</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Addons</div>
+                            <div>₹ 400</div>
+                        </div>
+                    </div>
+
+                    <!-- Discount Section -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div class="text-success">Discount</div>
+                            <div class="text-success">₹ -1,679</div>
+                        </div>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="total-amount-section mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="fw-bold">Total Amount:</div>
+                            <div class="fw-bold">₹ 89,756</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fare Rules Modal -->
+    <div class="modal fade fare-rules-modal" id="fareRulesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0 shadow-sm">
+                    <div class="d-flex align-items-center w-100">
+                        <i data-lucide="arrow-left" class="me-2 cursor-pointer" onclick="closeFareRulesModal()"></i>
+                        <div class="modal-title fw-bold h6">Fare Rules & Baggage</div>
+                    </div>
+                </div>
+                
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs border-bottom bg-white flex-nowrap overflow-auto" id="fareRulesTabs" style="white-space: nowrap;">
+                    <li class="nav-item">
+                        <a class="nav-link active tab-menu" href="#cancellation" data-bs-toggle="tab">CANCELLATION</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link tab-menu" href="#noshow" data-bs-toggle="tab">NO SHOW</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link tab-menu" href="#datechange" data-bs-toggle="tab">DATE CHANGE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link tab-menu" href="#baggage" data-bs-toggle="tab">BAGGAGE</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content flex-grow-1 overflow-auto pb-5">
+                    <div class="tab-pane active" id="cancellation">
+                        <div class="p-3">
+                            <!-- Flight Route Card -->
+                            <div class="card mb-4 route-info-card">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <div class="airline-logo-circle me-3">
+                                            <span>IN</span>
+                                        </div>
+                                        <span class="fw-medium">Mumbai - Sharjah</span>
+                                    </div>
+                                    <div class="text-muted small">
+                                        Airline + AT Fee
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Cancellation Rates -->
+                            <div class="mb-4">
+                                <div class="row border-bottom py-3">
+                                    <div class="col">
+                                        <div class="text-primary fw-medium">4 HRS - 24 HRS To Departure</div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <div class="text-muted small">Adult</div>
+                                        <div>
+                                            <span class="fw-semibold text-danger">₹9000</span> 
+                                            <span class="text-muted">+ ₹600</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row border-bottom py-3">
+                                    <div class="col">
+                                        <div class="text-primary fw-medium">1 Days - 3 Days To Departure</div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <div class="text-muted small">Adult</div>
+                                        <div>
+                                            <span class="fw-semibold text-warning">₹6500</span> 
+                                            <span class="text-muted">+ ₹600</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row py-3">
+                                    <div class="col">
+                                        <div class="text-primary fw-medium">3 Days - 999 Days To Departure</div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <div class="text-muted small">Adult</div>
+                                        <div>
+                                            <span class="fw-semibold text-success">₹5500</span> 
+                                            <span class="text-muted">+ ₹600</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notes Section -->
+                            <div class="small text-muted notes-section">
+                                <div class="note-item">
+                                    <div class="bullet-point"></div>
+                                    <div>
+                                        The above data is indicatory, fare rules are subject to changes by the 
+                                        Airline from time to time depending upon Fare class and 
+                                        change/cancellation fee amount may also vary based on fluctuations in 
+                                        currency conversion rates.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-item">
+                                    <div class="bullet-point"></div>
+                                    <div>
+                                        Although we will try to keep this section updated regularly.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-item">
+                                    <div class="bullet-point"></div>
+                                    <div>
+                                        Feel free to call our Contact Centre for exact cancellation/change fee.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-item">
+                                    <div class="bullet-point"></div>
+                                    <div>
+                                        Cancellation/Date change request will be accepted 30 hrs prior to departure.
+                                    </div>
+                                </div>
+                                
+                                <div class="note-item">
+                                    <div class="bullet-point"></div>
+                                    <div>
+                                        GST + RAF charges applicable on cancellation/Reissue penalty.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="noshow">
+                        <div class="p-3">
+                            <div class="text-center text-muted py-5">
+                                No show policy information would appear here
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="datechange">
+                        <div class="p-3">
+                            <div class="text-center text-muted py-5">
+                                Date change policy information would appear here
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="baggage">
+                        <div class="p-3">
+                            <div class="text-center text-muted py-5">
+                                Baggage information would appear here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Total Amount Footer -->
+                <div class="modal-footer-total">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="text-muted small">Total Amount</div>
+                            <div class="total-price">₹ 26,340</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Important notes toggle
+        document.getElementById('importantToggle').addEventListener('click', function() {
+            const content = document.getElementById('importantContent');
+            const chevron = document.getElementById('importantChevron');
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                chevron.setAttribute('data-lucide', 'chevron-right');
+            } else {
+                content.classList.add('show');
+                chevron.setAttribute('data-lucide', 'chevron-down');
+            }
+            lucide.createIcons();
+        });
+
+        function ContinueBtn() {
+            window.location.href = '/pax-details.html'
+        }
+
+        // Back button functionality
+        document.getElementById('backButton').addEventListener('click', function() {
+            if (window.history.length > 1) {
+                window.history.back();
+            }
+        });
+
+        // Modal functions
+        function openFareSummaryModal() {
+            const modal = new bootstrap.Modal(document.getElementById('fareSummaryModal'));
+            modal.show();
+        }
+
+        function closeFareSummaryModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('fareSummaryModal'));
+            if (modal) modal.hide();
+        }
+
+        function openFareRulesModal() {
+            const modal = new bootstrap.Modal(document.getElementById('fareRulesModal'));
+            modal.show();
+        }
+
+        function closeFareRulesModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('fareRulesModal'));
+            if (modal) modal.hide();
+        }
+
+        // Re-initialize icons after modal opens
+        document.getElementById('fareSummaryModal').addEventListener('shown.bs.modal', function() {
+            lucide.createIcons();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlytEasy</title>
+    <link rel="icon" type="image/svg+xml" href="./assets//img/favicon.png" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/index.css"/>
+</head>
+<body>
+    <!-- Header -->
+    <div class="bg-white sticky-top shadow-sm">
+        <div class="container-fluid px-3 py-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-link p-1 text-dark" onclick="showSidebar()">
+                    <i class="fas fa-bars" style="font-size: 24px;"></i>
+                </button>
+                
+                <div class="d-flex align-items-center">
+                    <img src="./assets/img/logo.png" alt="logo" width="100"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-primary text-white py-2">
+    <div class="container-fluid px-3">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <div class="small">Install flyteasy app now</div>
+          <div><strong>Get Flat 10% Off</strong></div>
+        </div>
+        <div class="col-4 text-end">
+          <button class="btn btn-warning btn-sm fw-bold">Install App</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Side Menu Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sideMenu">
+        <div class="offcanvas-header">
+            <div class="offcanvas-title">
+                <div class="d-flex align-items-center">
+                    <div class="logo-circle bg-light rounded-circle d-flex justify-content-center align-items-center me-3">
+                        <img src="./assets/img/logo.png" alt="logo" width="40"/>
+                    </div>
+                    <div>
+                        <h5 class="m-0">flyteasy</h5>
+                        <small class="text-muted">Go easy, travel easy</small>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        
+        <div class="offcanvas-body p-0">
+            <!-- User Section -->
+            <div class="bg-light p-3 mb-2">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-white p-2 me-3">
+                        <i class="fas fa-user text-primary" style="font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Hello, Traveler</div>
+                        <small>Log in for better experience</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-sign-in-alt"></i></span>
+                        Login / Sign Up
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="far fa-user"></i></span>
+                        My Profile
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-clipboard-list"></i></span>
+                        My Bookings
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-headset"></i></span>
+                        Support
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-info-circle"></i></span>
+                        About Us
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-question-circle"></i></span>
+                        FAQs
+                    </a>
+                </li>
+                <li class="list-group-item border-0">
+                    <a href="#" class="text-decoration-none text-dark d-flex align-items-center menu-link">
+                        <span class="me-3 text-primary"><i class="fas fa-sign-out-alt"></i></span>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- App Download Section -->
+        <div class="p-3 mt-3">
+            <div class="bg-primary text-white p-3 rounded">
+                <h6>Get 10% Off on First Booking</h6>
+                <p class="small mb-2">Download our app now</p>
+                <button class="btn btn-sm btn-light text-primary fw-bold">Install App</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area (for demonstration) -->
+    <div class="container-fluid p-3">
+        <div class="container p-3 mt-4 rounded" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+        <!-- Trip Type Selector -->
+        <div class="d-flex mb-3">
+            <div class="btn-group w-100">
+                <input type="radio" class="btn-check" name="tripType" id="oneWay" checked>
+                <label class="btn btn-outline-primary" for="oneWay">One Way</label>
+                
+                <input type="radio" class="btn-check" name="tripType" id="roundTrip">
+                <label class="btn btn-outline-primary" for="roundTrip">Round Trip</label>
+                
+                <input type="radio" class="btn-check" name="tripType" id="multiCity">
+                <label class="btn btn-outline-primary" for="multiCity">Multi City</label>
+            </div>
+        </div>
+
+        <!-- One Way / Round Trip Form -->
+        <div id="singleTripForm">
+            <!-- From Field -->
+            <div class="card mb-1" onclick="openAirportModal('from')" style="cursor: pointer;">
+                <div class="card-body py-2">
+                    <small class="text-muted">From</small>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small fw-semibold" id="fromName">Mumbai</div>
+                            <small class="text-muted d-block" id="fromAirport">Chhatrapati Shivaji International Airport</small>
+                        </div>
+                        <div class="small fw-semibold text-secondary" id="fromCode">BOM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swap Button -->
+            <div class="d-flex justify-content-end" style="margin-top: -8px; margin-bottom: -8px; z-index: 1; position: relative;">
+                <button class="btn btn-light rounded-circle border" 
+                        style="width: 24px; height: 24px; padding: 0;" 
+                        onclick="swapCities()">
+                    <span style="transform: rotate(90deg); display: block; font-size: 0.8rem;">⇄</span>
+                </button>
+            </div>
+
+            <!-- To Field -->
+            <div class="card mb-2" onclick="openAirportModal('to')" style="cursor: pointer;">
+                <div class="card-body py-2">
+                    <small class="text-muted">To</small>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small fw-semibold" id="toName">New Delhi</div>
+                            <small class="text-muted d-block" id="toAirport">Indira Gandhi International</small>
+                        </div>
+                        <div class="small fw-semibold text-secondary" id="toCode">DEL</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date Fields -->
+            <div id="oneWayDate" class="card mb-3">
+                <div class="card-body py-2">
+                    <small class="text-muted">Departure Date</small>
+                    <input type="date" class="form-control p-1 border-0" id="departureDate" value="2025-04-24">
+                </div>
+            </div>
+
+            <div id="roundTripDates" class="row g-2 mb-3" style="display: flex;">
+                <div class="col-6">
+                    <div class="card h-100">
+                        <div class="card-body py-2">
+                            <small class="text-muted">Departure</small>
+                            <input type="date" class="form-control p-1 border-0" id="roundTripDeparture" value="2025-04-25">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card h-100">
+                        <div class="card-body py-2">
+                            <small class="text-muted">Return</small>
+                            <input type="date" class="form-control p-1 border-0" id="roundTripReturn" value="2025-04-26">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-City Form -->
+        <div id="multiCityForm" style="display: none;">
+            <div id="multiCityTrips">
+                <!-- Multi-city trips will be dynamically generated here -->
+            </div>
+            
+            <!-- Add City Button -->
+            <div class="text-center mb-3">
+                <button class="btn btn-primary btn-sm" onclick="addNewCity()" id="addCityBtn">
+                    + Add City
+                </button>
+            </div>
+        </div>
+
+        <!-- Travelers & Class -->
+        <div class="card mb-3" onclick="openTravelersModal()" style="cursor: pointer;">
+            <div class="card-body py-2">
+                <small class="text-muted">Travellers & Class</small>
+                <div class="small fw-semibold" id="travelersDisplay">
+                    1 Traveller | Economy
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Button -->
+        <button class="btn btn-primary w-100 py-2 mb-3" onclick="handleSearch()">
+            Search
+        </button>
+    </div>
+    </div>
+
+    <div class="bg-primary text-white rounded-3 p-3 position-relative overflow-hidden mb-3 m-3">
+        <div class="position-relative" style="z-index: 2;">
+        <h5 class="mb-0">Every Thursday</h5>
+        <div class="mb-1 small">Save up to</div>
+        <h3 class="mb-1">₹20,000</h3>
+        <div class="small">on International flights</div>
+        <div class="bg-white text-primary d-inline-block px-2 py-1 rounded small mt-2">Code: PARDES</div>
+        </div>
+    </div>
+
+    <div class="m-3 my-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="m-0">Exclusive Deals</h6>
+        <a href="#" class="text-primary text-decoration-none small">View All</a>
+        </div>
+
+        <!-- Deal 1 -->
+        <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body p-0">
+            <div class="p-3 text-white deal-card rounded" style="background: linear-gradient(to right, #FF9900, #FFC107);">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                <h6 class="fw-bold mb-1">SUMMER TRAVEL SALE</h6>
+                <p class="mb-0 small">Up to ₹20,000 OFF on all Flight Bookings</p>
+                </div>
+                <div class="deal-icon fs-4">✈️</div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Deal 2 -->
+        <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body p-0">
+            <div class="p-3 text-white deal-card rounded" style="background: linear-gradient(to right, #4A90E2, #5E9CEA);">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                <h6 class="fw-bold mb-1">Pay through wallet</h6>
+                <p class="mb-0 small">SAVE FLAT ₹400 on flight bookings</p>
+                </div>
+                <div class="deal-icon fs-4">💳</div>
+            </div>
+            </div>
+        </div>
+        </div>
+  </div>
+
+  <div class="bg-light pt-4 pb-5">
+  <div class="container-fluid px-3">
+    <h5 class="mb-4 fw-bold">Why book with Flyteasy</h5>
+
+    <!-- Features -->
+    <div class="mb-4">
+      <!-- Customer Support -->
+      <div class="d-flex mb-4">
+        <div class="me-3">
+          <div class="rounded-circle bg-info bg-opacity-10 p-2" style="width: 50px; height: 50px;">
+            <i data-lucide="headset" class="text-info m-1"></i>
+          </div>
+        </div>
+        <div>
+          <h6 class="mb-1">24/7 Customer Support</h6>
+          <p class="text-muted small mb-0">We're here to help whenever you need us</p>
+        </div>
+      </div>
+
+      <!-- Reliable -->
+      <div class="d-flex mb-4">
+        <div class="me-3">
+          <div class="rounded-circle bg-warning bg-opacity-10 p-2" style="width: 50px; height: 50px;">
+            <i data-lucide="handshake" class="text-warning m-1"></i>
+          </div>
+        </div>
+        <div>
+          <h6 class="mb-1">Reliable Travel Company</h6>
+          <p class="text-muted small mb-0">Flyteasy is one of the oldest and the largest</p>
+        </div>
+      </div>
+
+      <!-- Lowest Prices -->
+      <div class="d-flex mb-4">
+        <div class="me-3">
+          <div class="rounded-circle bg-primary bg-opacity-10 p-2" style="width: 50px; height: 50px;">
+            <i data-lucide="dollar-sign" class="text-primary m-1"></i>
+          </div>
+        </div>
+        <div>
+          <h6 class="mb-1">Assured Lowest Prices</h6>
+          <p class="text-muted small mb-0">flyteasy.com assure the lowest fare</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion -->
+    <div class="accordion mb-4" id="footerAccordion">
+      <div class="accordion-item border-0 border-bottom bg-transparent">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button bg-transparent px-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            Why Flyteasy Travels?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body text-muted small pt-3">
+            Flyteasy is a leading travel agency offering comprehensive travel services including flights, hotels, and vacation packages.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item border-0 border-bottom bg-transparent">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button bg-transparent px-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            Company Information
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body text-muted small pt-3">
+            Founded in 1978, Flyteasy Travels has grown to become one of the largest travel companies with over 200 branches worldwide.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item border-0 border-bottom bg-transparent">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button bg-transparent px-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            Flyteasy On Mobile
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+          <div class="accordion-body text-muted small pt-3">
+            Download our mobile app for a seamless booking experience on the go. Available for iOS and Android devices.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Download Buttons -->
+    <div class="text-center mb-5">
+      <h5 class="mb-3">Download Our Mobile App</h5>
+      <div class="d-flex justify-content-center gap-2">
+        <a href="#" class="btn btn-dark d-flex align-items-center px-3 py-2">
+          <i class="fab fa-apple me-2"></i>
+          <div class="text-start">
+            <div class="small" style="font-size: 10px;">Download on the</div>
+            <div class="fw-bold">App Store</div>
+          </div>
+        </a>
+        <a href="#" class="btn btn-dark d-flex align-items-center px-3 py-2">
+          <i class="fab fa-google-play me-2"></i>
+          <div class="text-start">
+            <div class="small" style="font-size: 10px;">GET IT ON</div>
+            <div class="fw-bold">Google Play</div>
+          </div>
+        </a>
+      </div>
+      <p class="mt-2" style="font-size: 0.675em;">© 2025 www.flyteasy.com — All Rights Reserved.</p>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bottom bg-white border-top py-3">
+  <div class="container-fluid">
+    <div class="row text-center g-0">
+      <div class="col">
+        <div class="d-flex flex-column align-items-center text-primary">
+          <i class="fas fa-home fa-lg pb-2 pt-1"></i>
+          <div class="small mt-1">HOME</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="d-flex flex-column align-items-center">
+          <i class="fas fa-suitcase-rolling fa-lg pb-2 pt-1"></i>
+          <div class="small mt-1">MY TRIPS</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="d-flex flex-column align-items-center">
+          <i class="fas fa-percent fa-lg pb-2 pt-1"></i>
+          <div class="small mt-1">OFFERS</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="d-flex flex-column align-items-center">
+          <i class="fas fa-user fa-lg pb-2 pt-1"></i>
+          <div class="small mt-1">ACCOUNT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Travelers Modal -->
+    <div class="modal fade" id="travelersModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">TRAVELLERS & CLASS</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Adults -->
+                    <div class="mb-3">
+                        <div class="mb-1">
+                            <div class="small fw-medium">Adults</div>
+                            <small class="text-muted">Above 12 Years</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('adults', -1)">-</button>
+                            <span id="adultsCount">1</span>
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('adults', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Children -->
+                    <div class="mb-3">
+                        <div class="mb-1">
+                            <div class="small fw-medium">Children</div>
+                            <small class="text-muted">2-12 Years</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('children', -1)">-</button>
+                            <span id="childrenCount">0</span>
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('children', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Infants -->
+                    <div class="mb-4">
+                        <div class="mb-1">
+                            <div class="small fw-medium">Infants</div>
+                            <small class="text-muted">0-23 Months</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('infants', -1)">-</button>
+                            <span id="infantsCount">0</span>
+                            <button class="btn btn-outline-secondary btn-sm rounded" onclick="changeCount('infants', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Travel Class Selection -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="btn btn-primary btn-sm" onclick="selectTravelClass('Economy')" id="economyBtn">Economy</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="selectTravelClass('Premium Economy')" id="premiumBtn">Premium Economy</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="selectTravelClass('Business')" id="businessBtn">Business</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-sm w-100" data-bs-dismiss="modal" onclick="applyTravelers()">APPLY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Airport Selection Modal -->
+    <div class="modal fade" id="airportModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="airportModalTitle">From</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                    <input type="text" class="form-control form-control-sm mb-3" placeholder="Enter city or airport" id="airportSearch">
+                    
+                    <div class="important-airports">
+                        <h6 class="text-success mb-2 small">Important airports</h6>
+                        <div class="airport-list" id="airportList">
+                            <!-- Airport list will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function showSidebar() {
+            const sideMenu = new bootstrap.Offcanvas(document.getElementById('sideMenu'));
+            sideMenu.show();
+        }
+
+         // Global state variables
+        let currentTripType = 'oneWay';
+        let currentAirportSelection = { type: 'from', tripIndex: 0 };
+        
+        // Travelers state
+        let travelers = { adults: 1, children: 0, infants: 0 };
+        let travelClass = 'Economy';
+        
+        // Airport data
+        let currentFrom = { name: 'Mumbai', code: 'BOM', airport: 'Chhatrapati Shivaji International Airport' };
+        let currentTo = { name: 'New Delhi', code: 'DEL', airport: 'Indira Gandhi International' };
+        
+        // Multi-city trips
+        let multiCityTrips = [
+            {
+                from: { name: 'Mumbai', code: 'BOM', airport: 'Chhatrapati Shivaji International Airport' },
+                to: { name: 'New Delhi', code: 'DEL', airport: 'Indira Gandhi International' },
+                date: '2025-04-24'
+            },
+            {
+                from: { name: 'New Delhi', code: 'DEL', airport: 'Indira Gandhi International' },
+                to: { name: 'Mumbai', code: 'BOM', airport: 'Chhatrapati Shivaji International Airport' },
+                date: '2025-04-24'
+            }
+        ];
+
+        const importantAirports = [
+            { code: 'DEL', name: 'New Delhi', airport: 'Indira Gandhi International', country: 'India' },
+            { code: 'BOM', name: 'Mumbai', airport: 'Chhatrapati Shivaji International airport', country: 'India' },
+            { code: 'BLR', name: 'Bangalore', airport: 'Bengaluru International Airport', country: 'India' },
+            { code: 'MAA', name: 'Chennai', airport: 'Chennai', country: 'India' },
+            { code: 'CCU', name: 'Kolkata', airport: 'Netaji Subhas Chandra', country: 'India' },
+            { code: 'HYD', name: 'Hyderabad', airport: 'Rajiv Gandhi International Airport', country: 'India' },
+            { code: 'COK', name: 'Cochin', airport: 'Cochin', country: 'India' },
+            { code: 'DXB', name: 'Dubai', airport: 'Dubai', country: 'United Arab Emirates' },
+            { code: 'AUH', name: 'Abu Dhabi', airport: 'Abu Dhabi International', country: 'United Arab Emirates' },
+            { code: 'SHJ', name: 'Sharjah', airport: 'Sharjah', country: 'United Arab Emirates' },
+            { code: 'DOH', name: 'Doha', airport: 'Doha', country: 'Qatar' },
+            { code: 'JED', name: 'Jeddah', airport: 'King Abdulaziz International', country: 'Saudi Arabia' }
+        ];
+
+        // Initialize the form
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTripTypeListeners();
+            populateAirportList();
+            renderMultiCityTrips();
+            updateTravelersDisplay();
+        });
+
+        function setupTripTypeListeners() {
+            document.querySelectorAll('input[name="tripType"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    currentTripType = this.id;
+                    handleTripTypeChange();
+                });
+            });
+        }
+
+        function handleTripTypeChange() {
+            const singleTripForm = document.getElementById('singleTripForm');
+            const multiCityForm = document.getElementById('multiCityForm');
+            const oneWayDate = document.getElementById('oneWayDate');
+            const roundTripDates = document.getElementById('roundTripDates');
+
+            if (currentTripType === 'multiCity') {
+                singleTripForm.style.display = 'none';
+                multiCityForm.style.display = 'block';
+                renderMultiCityTrips();
+            } else {
+                singleTripForm.style.display = 'block';
+                multiCityForm.style.display = 'none';
+                
+                if (currentTripType === 'oneWay') {
+                    oneWayDate.style.display = 'block';
+                    roundTripDates.style.display = 'none';
+                } else {
+                    oneWayDate.style.display = 'none';
+                    roundTripDates.style.display = 'block';
+                }
+            }
+        }
+
+        function swapCities() {
+            const temp = { ...currentFrom };
+            currentFrom = { ...currentTo };
+            currentTo = temp;
+            updateFromToDisplay();
+        }
+
+        function updateFromToDisplay() {
+            document.getElementById('fromName').textContent = currentFrom.name;
+            document.getElementById('fromAirport').textContent = currentFrom.airport;
+            document.getElementById('fromCode').textContent = currentFrom.code;
+            
+            document.getElementById('toName').textContent = currentTo.name;
+            document.getElementById('toAirport').textContent = currentTo.airport;
+            document.getElementById('toCode').textContent = currentTo.code;
+        }
+
+        function openAirportModal(type, tripIndex = 0) {
+            currentAirportSelection = { type, tripIndex };
+            document.getElementById('airportModalTitle').textContent = type === 'from' ? 'From' : 'To';
+            new bootstrap.Modal(document.getElementById('airportModal')).show();
+        }
+
+        function populateAirportList() {
+            const airportList = document.getElementById('airportList');
+            airportList.innerHTML = '';
+            
+            importantAirports.forEach(airport => {
+                const countryFlag = airport.country === 'India' ? '🇮🇳' : 
+                                  airport.country === 'United Arab Emirates' ? '🇦🇪' :
+                                  airport.country === 'Qatar' ? '🇶🇦' : '🇸🇦';
+                
+                const airportDiv = document.createElement('div');
+                airportDiv.className = 'd-flex justify-content-between align-items-center p-2 border-bottom';
+                airportDiv.style.cursor = 'pointer';
+                airportDiv.onclick = () => selectAirport(airport);
+                
+                airportDiv.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <div class="code-box border border-1 px-2 py-1 rounded me-2 text-primary small">
+                            ${airport.code}
+                        </div>
+                        <div>
+                            <div class="small fw-medium">${airport.name}</div>
+                            <small class="text-muted">${airport.airport}</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <small class="text-muted me-1">${countryFlag}</small>
+                    </div>
+                `;
+                
+                airportList.appendChild(airportDiv);
+            });
+        }
+
+        function selectAirport(airport) {
+            const { type, tripIndex } = currentAirportSelection;
+            
+            if (currentTripType === 'multiCity') {
+                if (type === 'from') {
+                    multiCityTrips[tripIndex].from = airport;
+                } else {
+                    multiCityTrips[tripIndex].to = airport;
+                }
+                renderMultiCityTrips();
+            } else {
+                if (type === 'from') {
+                    currentFrom = airport;
+                } else {
+                    currentTo = airport;
+                }
+                updateFromToDisplay();
+            }
+            
+            bootstrap.Modal.getInstance(document.getElementById('airportModal')).hide();
+        }
+
+        function renderMultiCityTrips() {
+            const container = document.getElementById('multiCityTrips');
+            container.innerHTML = '';
+            
+            multiCityTrips.forEach((trip, index) => {
+                const tripDiv = document.createElement('div');
+                tripDiv.className = 'mb-3 border-bottom pb-3';
+                
+                tripDiv.innerHTML = `
+                    <div class="card mb-2">
+                        <div class="card-body py-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="from-to-info" onclick="openAirportModal('from', ${index})">
+                                    <small class="text-muted d-block">From</small>
+                                    <div class="airport-name">${trip.from.name} (${trip.from.code})</div>
+                                    <div class="airport-full-name">${trip.from.airport}</div>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="from-to-info text-end" onclick="openAirportModal('to', ${index})">
+                                    <small class="text-muted d-block">To</small>
+                                    <div class="airport-name">${trip.to.name} (${trip.to.code})</div>
+                                    <div class="airport-full-name">${trip.to.airport}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body py-2">
+                            <small class="text-muted">Departure Date</small>
+                            <input type="date" class="form-control p-1 border-0" value="${trip.date}" 
+                                   onchange="updateMultiCityDate(${index}, this.value)">
+                        </div>
+                    </div>
+                    ${index > 1 ? `
+                        <button class="btn btn-outline-danger btn-sm mb-2" style="border: none;" 
+                                onclick="removeCity(${index})">
+                            <i class="fas fa-trash text-danger"></i>
+                        </button>
+                    ` : ''}
+                `;
+                
+                container.appendChild(tripDiv);
+            });
+            
+            // Update add city button state
+            const addCityBtn = document.getElementById('addCityBtn');
+            if (addCityBtn) {
+                addCityBtn.disabled = multiCityTrips.length >= 5;
+            }
+        }
+
+        function addNewCity() {
+            if (multiCityTrips.length < 5) {
+                multiCityTrips.push({
+                    from: { name: 'Mumbai', code: 'BOM', airport: 'Chhatrapati Shivaji International Airport' },
+                    to: { name: 'New Delhi', code: 'DEL', airport: 'Indira Gandhi International' },
+                    date: '2025-04-24'
+                });
+                renderMultiCityTrips();
+            }
+        }
+
+        function removeCity(index) {
+            if (multiCityTrips.length > 1) {
+                multiCityTrips.splice(index, 1);
+                renderMultiCityTrips();
+            }
+        }
+
+        function updateMultiCityDate(index, date) {
+            multiCityTrips[index].date = date;
+        }
+
+        function openTravelersModal() {
+            new bootstrap.Modal(document.getElementById('travelersModal')).show();
+        }
+
+        function changeCount(type, change) {
+            if (type === 'adults') {
+                travelers.adults = Math.max(1, travelers.adults + change);
+                document.getElementById('adultsCount').textContent = travelers.adults;
+            } else if (type === 'children') {
+                travelers.children = Math.max(0, travelers.children + change);
+                document.getElementById('childrenCount').textContent = travelers.children;
+            } else if (type === 'infants') {
+                travelers.infants = Math.max(0, travelers.infants + change);
+                document.getElementById('infantsCount').textContent = travelers.infants;
+            }
+        }
+
+        function selectTravelClass(className) {
+            travelClass = className;
+            
+            // Reset all buttons
+            document.getElementById('economyBtn').className = 'btn btn-outline-secondary btn-sm';
+            document.getElementById('premiumBtn').className = 'btn btn-outline-secondary btn-sm';
+            document.getElementById('businessBtn').className = 'btn btn-outline-secondary btn-sm';
+            
+            // Highlight selected button
+            if (className === 'Economy') {
+                document.getElementById('economyBtn').className = 'btn btn-primary btn-sm';
+            } else if (className === 'Premium Economy') {
+                document.getElementById('premiumBtn').className = 'btn btn-primary btn-sm';
+            } else if (className === 'Business') {
+                document.getElementById('businessBtn').className = 'btn btn-primary btn-sm';
+            }
+        }
+
+        function applyTravelers() {
+            updateTravelersDisplay();
+        }
+
+        function updateTravelersDisplay() {
+            const totalTravelers = travelers.adults + travelers.children + travelers.infants;
+            document.getElementById('travelersDisplay').textContent = 
+                `${totalTravelers} Traveller${totalTravelers > 1 ? 's' : ''} | ${travelClass}`;
+        }
+
+        function handleSearch() {
+            const searchData = {
+                tripType: currentTripType,
+                travelers: travelers,
+                travelClass: travelClass
+            };
+            
+            if (currentTripType === 'oneWay') {
+                searchData.from = currentFrom;
+                searchData.to = currentTo;
+                searchData.date = document.getElementById('departureDate').value;
+                //navigate
+                window.location.href = '/flight-search.html'
+            } else if (currentTripType === 'roundTrip') {
+                searchData.from = currentFrom;
+                searchData.to = currentTo;
+                searchData.departureDate = document.getElementById('roundTripDeparture').value;
+                searchData.returnDate = document.getElementById('roundTripReturn').value;
+            } else if (currentTripType === 'multiCity') {
+                searchData.trips = multiCityTrips;
+            }
+            
+            console.log('Search Data:', searchData);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlytEasy</title>
+    <link rel="icon" type="image/svg+xml" href="./assets//img/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/pax-deatils.css"/>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Header with back button -->
+        <nav class="navbar d-flex align-items-center mb-1 fixed-top header-sec px-2">
+            <i data-lucide="arrow-left" class="me-2 cursor-pointer" id="backButton"></i>
+            <p class="header-text mb-0">Pax details & Addon Services</p>
+        </nav>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto mt-5">
+                <!-- Contact Information Card -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-semibold">Contact Information</h6>
+                        <i class="fas fa-edit text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#contactModal"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Phone<br><small id="phoneDisplay">+91</small></span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email<br><small id="emailDisplay">Not provided</small></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traveller Details Card -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-semibold">Traveller Details</h6>
+                        <i class="fas fa-chevron-up text-primary" style="cursor: pointer;" id="travellerToggle"></i>
+                    </div>
+                    <div class="card-body" id="travellerCardBody" style="transition: height 0.35s ease;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Adult</strong> <span class="traveller-count">[ 12 Yrs+ ]</span>
+                            </div>
+                            <span class="added-count" id="adultCount">0/1 added</span>
+                        </div>
+                        
+                        <!-- Added Passengers List -->
+                        <div id="addedPassengersList" style="display: none;">
+                            <!-- Passengers will be dynamically added here -->
+                        </div>
+                        
+                        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#addTravellerModal" style="font-size: small;" id="addAdultBtn">
+                            <i class="fas fa-plus me-2"></i>Add New Adult
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Addons section -->
+        <div class="addon-services">
+            <h6 class="fw-semibold mb-3">Addon Services (Optional)</h6>
+            <div class="service-grid">
+                <div class="service-card" onclick="openModal('mealsModal')">
+                    <div class="service-icon">
+                        🍽️
+                    </div>
+                    <div class="service-title">Meals</div>
+                    <a href="#" class="add-link">
+                        <i class="fas fa-plus-circle"></i> ADD
+                    </a>
+                </div>
+                
+                <div class="service-card" onclick="openModal('baggageModal')">
+                    <div class="service-icon">
+                        🧳
+                    </div>
+                    <div class="service-title">Baggage</div>
+                    <a href="#" class="add-link">
+                        <i class="fas fa-plus-circle"></i> ADD
+                    </a>
+                </div>
+                
+                <div class="service-card" onclick="openModal('seatsModal')">
+                    <div class="service-icon">
+                        💺
+                    </div>
+                    <div class="service-title">Seats</div>
+                    <a href="#" class="add-link">
+                        <i class="fas fa-plus-circle"></i> ADD
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Continue Button -->
+        <div class="fixed-bottom bg-white border-top px-3 py-2">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="d-flex flex-column justify-content-between">
+                        <p class="small fw-semibold mb-0 text-muted">Total Amount</p>
+                        <p class="fs-5 fw-bold mb-0">₹ 26,234 <i data-lucide="info" class="ms-1 text-danger cursor-pointer mb-1" onclick="openFareSummaryModal()"></i></p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <a class="btn btn-primary w-100 py-2 fw-medium" href="booking-details.html">Continue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+     <!-- Meals Modal -->
+    <div class="modal-fullscreen-custom" id="mealsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header-custom">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-arrow-left me-3" onclick="closeModal('mealsModal')" style="cursor: pointer;"></i>
+                            <h5 class="mb-0">Meals</h5>
+                        </div>
+                        <span class="text-primary" onclick="closeModal('mealsModal')" style="cursor: pointer;">Skip</span>
+                    </div>
+                </div>
+                <div class="modal-body-custom">
+                    <div class="flight-badge">
+                        <i class="fas fa-plane"></i>
+                        BOM - AUH
+                    </div>
+                    
+                    <div class="adult-badge">
+                        Adult 1
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">🥜</div>
+                            <div>
+                                <div class="fw-medium">Nut Mix</div>
+                                <div class="addon-price">₹ 300</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Nut Mix', 300, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">☕</div>
+                            <div>
+                                <div class="fw-medium">Amul Kool Cafe (Cold Coffee)</div>
+                                <div class="addon-price">₹ 100</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Amul Kool Cafe', 100, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">🌿</div>
+                            <div>
+                                <div class="fw-medium">Borecha Basil Shikanji</div>
+                                <div class="addon-price">₹ 100</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Borecha Basil Shikanji', 100, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">🍛</div>
+                            <div>
+                                <div class="fw-medium">Bhel Puri - Jain Special</div>
+                                <div class="addon-price">₹ 250</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Bhel Puri', 250, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">🥭</div>
+                            <div>
+                                <div class="fw-medium">Borecha Mango Kombucha</div>
+                                <div class="addon-price">₹ 100</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Mango Kombucha', 100, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon">☕</div>
+                            <div>
+                                <div class="fw-medium">Black Coffee</div>
+                                <div class="addon-price">₹ 100</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, 'Black Coffee', 100, 'meals')">ADD</button>
+                    </div>
+                    
+                    <div style="height: 120px;"></div>
+                </div>
+                
+                <div class="bottom-bar">
+                    <div class="total-info">
+                        <div>
+                            <div class="small text-muted" id="mealSelectionCount">0 Meal(s) Selected</div>
+                            <div class="small text-muted">Added to fare</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted">Total ₹ <span id="mealTotal">0</span></div>
+                        </div>
+                    </div>
+                    <div class="total-info">
+                        <div class="fw-bold">Total Amount</div>
+                        <div></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="fw-bold">₹ <span id="grandTotal1">8534</span></div>
+                        <button class="continue-btn" onclick="closeModal('mealsModal')">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Baggage Modal -->
+    <div class="modal-fullscreen-custom" id="baggageModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header-custom">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-arrow-left me-3" onclick="closeModal('baggageModal')" style="cursor: pointer;"></i>
+                            <h5 class="mb-0">Baggage</h5>
+                        </div>
+                        <span class="text-primary" onclick="closeModal('baggageModal')" style="cursor: pointer;">Skip</span>
+                    </div>
+                </div>
+                <div class="modal-body-custom">
+                    <div class="flight-badge">
+                        <i class="fas fa-plane"></i>
+                        BOM - AUH
+                    </div>
+                    
+                    <div class="adult-badge">
+                        Adult 1
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon baggage-icon">
+                                <i class="fas fa-suitcase"></i>
+                            </div>
+                            <div>
+                                <div class="fw-medium">5 kgs</div>
+                                <div class="addon-price">₹ 5500</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, '5 kgs', 5500, 'baggage')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon baggage-icon">
+                                <i class="fas fa-suitcase"></i>
+                            </div>
+                            <div>
+                                <div class="fw-medium">10 kgs</div>
+                                <div class="addon-price">₹ 11000</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, '10 kgs', 11000, 'baggage')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon seat-icon">
+                                <i class="fas fa-suitcase-rolling"></i>
+                            </div>
+                            <div>
+                                <div class="fw-medium">15 kgs</div>
+                                <div class="addon-price">₹ 16500</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, '15 kgs', 16500, 'baggage')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon" style="color: #ffc107;">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <div class="fw-medium">20 kgs</div>
+                                <div class="addon-price">₹ 22000</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, '20 kgs', 22000, 'baggage')">ADD</button>
+                    </div>
+                    
+                    <div class="addon-card">
+                        <div class="addon-info">
+                            <div class="addon-icon" style="color: #fd7e14;">
+                                <i class="fas fa-suitcase"></i>
+                            </div>
+                            <div>
+                                <div class="fw-medium">30 kgs</div>
+                                <div class="addon-price">₹ 33000</div>
+                            </div>
+                        </div>
+                        <button class="add-btn" onclick="toggleAddon(this, '30 kgs', 33000, 'baggage')">ADD</button>
+                    </div>
+                    
+                    <div style="height: 120px;"></div>
+                </div>
+                
+                <div class="bottom-bar">
+                    <div class="total-info">
+                        <div>
+                            <div class="small text-muted" id="baggageSelectionCount">Not Selected</div>
+                            <div class="small text-muted">Added to fare</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted">Total ₹ <span id="baggageTotal">0</span></div>
+                        </div>
+                    </div>
+                    <div class="total-info">
+                        <div class="fw-bold">Total Amount</div>
+                        <div></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="fw-bold">₹ <span id="grandTotal2">8534</span></div>
+                        <button class="continue-btn" onclick="closeModal('baggageModal')">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seats Modal -->
+    <div class="modal-fullscreen-custom" id="seatsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header-custom">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-arrow-left me-3" onclick="closeModal('seatsModal')" style="cursor: pointer;"></i>
+                            <h5 class="mb-0">Seats</h5>
+                        </div>
+                        <span class="text-primary" onclick="closeModal('seatsModal')" style="cursor: pointer;">Skip</span>
+                    </div>
+                </div>
+                <div class="modal-body-custom">
+                    <div class="flight-badge">
+                        <i class="fas fa-plane"></i>
+                        BOM - AUH
+                    </div>
+                    
+                    <div class="adult-badge">
+                        Adult 1
+                    </div>
+                    
+                    <div class="text-center mb-3" style="padding: 0 20px;">
+                        <strong>FRONT</strong>
+                    </div>
+                    
+                    <div class="seat-map">
+                        <div class="seat-row">
+                            <span class="row-number">1</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="1A">1A</div>
+                                <div class="seat available" data-seat="1B">1B</div>
+                                <div class="seat available" data-seat="1C">1C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="1D">1D</div>
+                                <div class="seat available" data-seat="1E">1E</div>
+                                <div class="seat available" data-seat="1F">1F</div>
+                            </div>
+                            <span class="row-number">1</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">2</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="2A">2A</div>
+                                <div class="seat available" data-seat="2B">2B</div>
+                                <div class="seat available" data-seat="2C">2C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat occupied" data-seat="2D">2D</div>
+                                <div class="seat available" data-seat="2E">2E</div>
+                                <div class="seat occupied" data-seat="2F">2F</div>
+                            </div>
+                            <span class="row-number">2</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">3</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="3A">3A</div>
+                                <div class="seat available" data-seat="3B">3B</div>
+                                <div class="seat available" data-seat="3C">3C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat occupied" data-seat="3D">3D</div>
+                                <div class="seat available" data-seat="3E">3E</div>
+                                <div class="seat available" data-seat="3F">3F</div>
+                            </div>
+                            <span class="row-number">3</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">4</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="4A">4A</div>
+                                <div class="seat available" data-seat="4B">4B</div>
+                                <div class="seat available" data-seat="4C">4C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="4D">4D</div>
+                                <div class="seat available" data-seat="4E">4E</div>
+                                <div class="seat occupied" data-seat="4F">4F</div>
+                            </div>
+                            <span class="row-number">4</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">5</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="5A">5A</div>
+                                <div class="seat available" data-seat="5B">5B</div>
+                                <div class="seat available" data-seat="5C">5C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat occupied" data-seat="5D">5D</div>
+                                <div class="seat available" data-seat="5E">5E</div>
+                                <div class="seat occupied" data-seat="5F">5F</div>
+                            </div>
+                            <span class="row-number">5</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">6</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="6A">6A</div>
+                                <div class="seat available" data-seat="6B">6B</div>
+                                <div class="seat available" data-seat="6C">6C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="6D">6D</div>
+                                <div class="seat available" data-seat="6E">6E</div>
+                                <div class="seat available" data-seat="6F">6F</div>
+                            </div>
+                            <span class="row-number">6</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">7</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="7A">7A</div>
+                                <div class="seat available" data-seat="7B">7B</div>
+                                <div class="seat available" data-seat="7C">7C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="7D">7D</div>
+                                <div class="seat available" data-seat="7E">7E</div>
+                                <div class="seat available" data-seat="7F">7F</div>
+                            </div>
+                            <span class="row-number">7</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">8</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="8A">8A</div>
+                                <div class="seat available" data-seat="8B">8B</div>
+                                <div class="seat available" data-seat="8C">8C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="8D">8D</div>
+                                <div class="seat available" data-seat="8E">8E</div>
+                                <div class="seat available" data-seat="8F">8F</div>
+                            </div>
+                            <span class="row-number">8</span>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <span class="row-number">9</span>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="9A">9A</div>
+                                <div class="seat available" data-seat="9B">9B</div>
+                                <div class="seat available" data-seat="9C">9C</div>
+                            </div>
+                            <div class="seat-section">
+                                <div class="seat available" data-seat="9D">9D</div>
+                                <div class="seat available" data-seat="9E">9E</div>
+                                <div class="seat available" data-seat="9F">9F</div>
+                            </div>
+                            <span class="row-number">9</span>
+                        </div>
+                    </div>
+                    
+                    <div style="height: 120px;"></div>
+                </div>
+                
+                <div class="bottom-bar">
+                    <div class="total-info">
+                        <div>
+                            <div class="small text-muted" id="seatSelectionCount">0 of 1 Seat(s) Selected</div>
+                            <div class="small text-muted">Added to fare</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="small text-muted">Total ₹ <span id="seatTotal">0</span></div>
+                        </div>
+                    </div>
+                    <div class="total-info">
+                        <div class="fw-bold">Total Amount</div>
+                        <div></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="fw-bold">₹ <span id="grandTotal3">8534</span></div>
+                        <button class="continue-btn" onclick="closeModal('seatsModal')">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Fare Summary Modal -->
+    <div class="modal fade fare-summary-modal" id="fareSummaryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="modal-title w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">Fare Summary</span>
+                            <i data-lucide="x" class="cursor-pointer" onclick="closeFareSummaryModal()"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body pt-3">
+                    <!-- Base Fare Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Base Fare</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Adult (2 x ₹ 27,302)</div>
+                            <div>₹ 54,604</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Child (1 x ₹ 27,302)</div>
+                            <div>₹ 27,302</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Base Fare</div>
+                            <div>₹ 81,906</div>
+                        </div>
+                    </div>
+
+                    <!-- Tax & Charges Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Tax & Charges</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">User Dev. Fee</div>
+                            <div>₹ 663</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Service Tax</div>
+                            <div>₹ 75</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted">Airline Misc</div>
+                            <div>₹ 8,391</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Tax & Charges</div>
+                            <div>₹ 9,129</div>
+                        </div>
+                    </div>
+
+                    <!-- Addons Section -->
+                    <div class="mb-3">
+                        <div class="fw-medium mb-2">Addons</div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 ps-3">
+                            <div class="text-muted d-flex align-items-center">
+                                Baggage
+                                <span class="ms-2 badge rounded-circle bg-secondary text-white" style="width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center;">?</span>
+                            </div>
+                            <div>₹ 400</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div>Addons</div>
+                            <div>₹ 400</div>
+                        </div>
+                    </div>
+
+                    <!-- Discount Section -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center fw-medium">
+                            <div class="text-success">Discount</div>
+                            <div class="text-success">₹ -1,679</div>
+                        </div>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="total-amount-section mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="fw-bold">Total Amount:</div>
+                            <div class="fw-bold">₹ 89,756</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Traveller Modal -->
+    <div class="modal fade" id="addTravellerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Traveller - (adult 1)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Warning Alert -->
+                    <div class="warning-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span style="font-size: x-small;">Please make sure you enter the Name as per your Government photo id.</span>
+                    </div>
+
+                    <!-- Title Selection -->
+                    <div class="title-selection">
+                        <button class="title-btn active" id="mrBtn">Mr</button>
+                        <button class="title-btn" id="msBtn">Ms</button>
+                        <button class="title-btn" id="mrsBtn">Mrs</button>
+                    </div>
+
+                    <!-- Form Fields -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="First Name / Given Name">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Last Name / Surname">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Date of birth" id="dobInput">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <select class="form-select">
+                                <option selected>Nationality</option>
+                                <option value="indian">Indian</option>
+                                <option value="us">American</option>
+                                <option value="uk">British</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Passport No.">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Passport Expiry" id="passportExpiryInput">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <select class="form-select">
+                            <option selected>Issuing Country</option>
+                            <option value="india">India</option>
+                            <option value="usa">United States</option>
+                            <option value="uk">United Kingdom</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <select class="form-select">
+                            <option selected>Visa Type</option>
+                            <option value="STUDENT VISA">STUDENT VISA</option>
+                            <option value="IMMIGRANT VISA">IMMIGRANT VISA</option>
+                            <option value="PERMANENT RESIDENT VISA">PERMANENT RESIDENT VISA</option>
+                            <option value="EMPLOYMENT / WORK VISA">EMPLOYMENT / WORK VISA</option>
+                            <option value="JOINING FAMILY VISA">JOINING FAMILY VISA</option>
+                            <option value="BUSINESS VISA">BUSINESS VISA</option>
+                            <option value="TOURIST / VISIT VISA">TOURIST / VISIT VISA</option>
+                            <option value="HAJJ VISA">HAJJ VISA</option>
+                            <option value="UM RAH VISA">UM RAH VISA</option>
+                            <option value="OTHERS (SPECIFY)">OTHERS (SPECIFY)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveTraveller()">Save Traveller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- contact detail modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="countryCode" class="form-label">Country Code</label>
+                        <select class="form-select" id="countryCode">
+                            <option value="+91" selected>🇮🇳 +91 (India)</option>
+                            <option value="+1">🇺🇸 +1 (USA)</option>
+                            <option value="+44">🇬🇧 +44 (UK)</option>
+                            <option value="+61">🇦🇺 +61 (Australia)</option>
+                            <option value="+81">🇯🇵 +81 (Japan)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number" pattern="[0-9]{10}">
+                        <div class="form-text">Enter 10 digit mobile number</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailAddress" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email address">
+                        <div class="form-text">We'll send booking confirmation to this email</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveContactInfo()">Save Contact Info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+         // Back button functionality
+        document.getElementById('backButton').addEventListener('click', function() {
+            if (window.history.length > 1) {
+                window.history.back();
+            }
+        });
+
+        // Modal functions
+        function openFareSummaryModal() {
+            const modal = new bootstrap.Modal(document.getElementById('fareSummaryModal'));
+            modal.show();
+        }
+
+        function closeFareSummaryModal() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('fareSummaryModal'));
+            if (modal) modal.hide();
+        }
+
+         // Title button selection
+        document.querySelectorAll('.title-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.title-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.getElementById('dobInput').addEventListener('click', function() {
+            this.type = 'date';
+        });
+
+        document.getElementById('passportExpiryInput').addEventListener('click', function() {
+            this.type = 'date';
+        });
+
+        // Contact info save function
+        function saveContactInfo() {
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const emailAddress = document.getElementById('emailAddress').value;
+            
+            if (phoneNumber && phoneNumber.length === 10) {
+                document.getElementById('phoneDisplay').textContent = `${countryCode} ${phoneNumber}`;
+            }
+            
+            if (emailAddress && emailAddress.includes('@')) {
+                document.getElementById('emailDisplay').textContent = emailAddress;
+            }
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+            modal.hide();
+        }
+
+        // Phone number validation
+        document.getElementById('phoneNumber').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+
+        // Collapse/expand functionality for traveller details
+        document.getElementById('travellerToggle').addEventListener('click', function() {
+            const cardBody = document.getElementById('travellerCardBody');
+            if (cardBody.style.display === 'none') {
+                cardBody.style.display = 'block';
+                this.classList.remove('fa-chevron-down');
+                this.classList.add('fa-chevron-up');
+            } else {
+                cardBody.style.display = 'none';
+                this.classList.remove('fa-chevron-up');
+                this.classList.add('fa-chevron-down');
+            }
+        });
+
+        // Array to store added passengers
+        let addedPassengers = [];
+        let passengerCounter = 0;
+
+        // Save traveller function
+        function saveTraveller() {
+            const title = document.querySelector('.title-btn.active').textContent;
+            const firstName = document.querySelector('input[placeholder="First Name / Given Name"]').value;
+            const lastName = document.querySelector('input[placeholder="Last Name / Surname"]').value;
+            const dob = document.getElementById('dobInput').value;
+            const nationality = document.querySelector('select').value;
+            const passportNo = document.querySelector('input[placeholder="Passport No."]').value;
+            const passportExpiry = document.getElementById('passportExpiryInput').value;
+            
+            // Basic validation
+            if (!firstName || !lastName) {
+                alert('Please fill in required fields: First Name and Last Name');
+                return;
+            }
+            
+            passengerCounter++;
+            const passenger = {
+                id: passengerCounter,
+                title,
+                firstName,
+                lastName,
+                dob,
+                nationality,
+                passportNo,
+                passportExpiry,
+                fullName: `${title}. ${firstName.toUpperCase()} ${lastName.toUpperCase()}`
+            };
+            
+            addedPassengers.push(passenger);
+            updatePassengerDisplay();
+            clearTravellerForm();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addTravellerModal'));
+            modal.hide();
+        }
+
+        // Update passenger display
+        function updatePassengerDisplay() {
+            const passengersList = document.getElementById('addedPassengersList');
+            const adultCount = document.getElementById('adultCount');
+            const addButton = document.getElementById('addAdultBtn');
+            
+            // Update count
+            adultCount.textContent = `${addedPassengers.length}/1 added`;
+            
+            if (addedPassengers.length > 0) {
+                passengersList.style.display = 'block';
+                passengersList.innerHTML = '';
+                
+                addedPassengers.forEach(passenger => {
+                    const passengerElement = document.createElement('div');
+                    passengerElement.className = 'passenger-item mb-3 p-2 border rounded';
+                    passengerElement.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="passenger-checkbox me-2">
+                                        <input type="checkbox" class="form-check-input" checked id="passenger_${passenger.id}">
+                                        <label class="form-check-label fw-medium small" for="passenger_${passenger.id}">
+                                            ${passenger.fullName}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="passenger-actions ms-3">
+                                <i class="fas fa-edit text-primary cursor-pointer me-2" onclick="editPassenger(${passenger.id})" title="Edit Passenger"></i>
+                                <i class="fas fa-trash text-danger cursor-pointer" onclick="deletePassenger(${passenger.id})" title="Delete Passenger"></i>
+                            </div>
+                        </div>
+                    `;
+                    passengersList.appendChild(passengerElement);
+                });
+                
+                // Hide add button if limit reached
+                if (addedPassengers.length >= 1) {
+                    addButton.style.display = 'none';
+                }
+            } else {
+                passengersList.style.display = 'none';
+                addButton.style.display = 'block';
+            }
+        }
+
+        // Clear traveller form
+        function clearTravellerForm() {
+            document.querySelector('input[placeholder="First Name / Given Name"]').value = '';
+            document.querySelector('input[placeholder="Last Name / Surname"]').value = '';
+            document.getElementById('dobInput').value = '';
+            document.getElementById('dobInput').type = 'text';
+            document.querySelector('input[placeholder="Passport No."]').value = '';
+            document.getElementById('passportExpiryInput').value = '';
+            document.getElementById('passportExpiryInput').type = 'text';
+            
+            // Reset title selection
+            document.querySelectorAll('.title-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('mrBtn').classList.add('active');
+            
+            // Reset dropdowns
+            document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+        }
+
+        // Edit passenger function
+        function editPassenger(passengerId) {
+            const passenger = addedPassengers.find(p => p.id === passengerId);
+            if (!passenger) return;
+            
+            // Populate form with passenger data
+            document.querySelector('input[placeholder="First Name / Given Name"]').value = passenger.firstName;
+            document.querySelector('input[placeholder="Last Name / Surname"]').value = passenger.lastName;
+            document.getElementById('dobInput').value = passenger.dob;
+            document.querySelector('input[placeholder="Passport No."]').value = passenger.passportNo;
+            document.getElementById('passportExpiryInput').value = passenger.passportExpiry;
+            
+            // Set title
+            document.querySelectorAll('.title-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === passenger.title) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Remove passenger from array (will be re-added when saved)
+            addedPassengers = addedPassengers.filter(p => p.id !== passengerId);
+            updatePassengerDisplay();
+            
+            // Open modal
+            const modal = new bootstrap.Modal(document.getElementById('addTravellerModal'));
+            modal.show();
+        }
+
+        // Delete passenger function
+        function deletePassenger(passengerId) {
+            if (confirm('Are you sure you want to remove this passenger?')) {
+                addedPassengers = addedPassengers.filter(p => p.id !== passengerId);
+                updatePassengerDisplay();
+            }
+        }
+    </script>
+
+    <script>
+        // Global variables to track selected addons and prices
+let selectedAddons = {
+    meals: [],
+    baggage: null,
+    seats: []
+};
+
+let totalAmounts = {
+    meals: 0,
+    baggage: 0,
+    seats: 0
+};
+
+const baseFare = 8534;
+
+// Modal functions
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        // Add backdrop
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop fade show';
+        backdrop.id = modalId + '-backdrop';
+        document.body.appendChild(backdrop);
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        document.body.style.overflow = ''; // Restore scrolling
+        
+        // Remove backdrop
+        const backdrop = document.getElementById(modalId + '-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+    }
+}
+
+// Addon toggle function
+function toggleAddon(button, addonName, price) {
+    const modalId = button.closest('.modal').id;
+    let category = '';
+    
+    // Determine category based on modal
+    if (modalId === 'mealsModal') {
+        category = 'meals';
+    } else if (modalId === 'baggageModal') {
+        category = 'baggage';
+    } else if (modalId === 'seatsModal') {
+        category = 'seats';
+    }
+    
+    if (button.classList.contains('added')) {
+        // Remove addon
+        button.classList.remove('added');
+        button.textContent = 'ADD';
+        
+        if (category === 'meals') {
+            const index = selectedAddons.meals.findIndex(item => item.name === addonName);
+            if (index > -1) {
+                selectedAddons.meals.splice(index, 1);
+            }
+        } else if (category === 'baggage') {
+            selectedAddons.baggage = null;
+        }
+        
+    } else {
+        // Add addon
+        button.classList.add('added');
+        button.textContent = 'ADDED';
+        
+        if (category === 'meals') {
+            selectedAddons.meals.push({ name: addonName, price: price });
+        } else if (category === 'baggage') {
+            // Clear previous baggage selection
+            const allBaggageButtons = document.querySelectorAll('#baggageModal .add-btn');
+            allBaggageButtons.forEach(btn => {
+                if (btn !== button) {
+                    btn.classList.remove('added');
+                    btn.textContent = 'ADD';
+                }
+            });
+            selectedAddons.baggage = { name: addonName, price: price };
+        }
+    }
+    
+    updateTotals(category);
+}
+
+// Update totals function
+function updateTotals(category) {
+    // Calculate totals for each category
+    totalAmounts.meals = selectedAddons.meals.reduce((sum, item) => sum + item.price, 0);
+    totalAmounts.baggage = selectedAddons.baggage ? selectedAddons.baggage.price : 0;
+    totalAmounts.seats = 0; // Seats don't have additional cost in this example
+    
+    // Update meals modal
+    if (category === 'meals' || !category) {
+        const mealCount = selectedAddons.meals.length;
+        document.getElementById('mealSelectionCount').textContent = `${mealCount} Meal(s) Selected`;
+        document.getElementById('mealTotal').textContent = totalAmounts.meals;
+        document.getElementById('grandTotal1').textContent = baseFare + totalAmounts.meals + totalAmounts.baggage;
+    }
+    
+    // Update baggage modal
+    if (category === 'baggage' || !category) {
+        const baggageText = selectedAddons.baggage ? 'Selected' : 'Not Selected';
+        document.getElementById('baggageSelectionCount').textContent = baggageText;
+        document.getElementById('baggageTotal').textContent = totalAmounts.baggage;
+        document.getElementById('grandTotal2').textContent = baseFare + totalAmounts.meals + totalAmounts.baggage;
+    }
+}
+
+// Seat selection functionality
+function initializeSeatSelection() {
+    const seats = document.querySelectorAll('.seat.available');
+    
+    seats.forEach(seat => {
+        seat.addEventListener('click', function() {
+            const seatId = this.dataset.seat;
+            
+            if (this.classList.contains('selected')) {
+                // Deselect seat
+                this.classList.remove('selected');
+                const index = selectedAddons.seats.indexOf(seatId);
+                if (index > -1) {
+                    selectedAddons.seats.splice(index, 1);
+                }
+            } else {
+                // For single selection, deselect other seats first
+                document.querySelectorAll('.seat.selected').forEach(selectedSeat => {
+                    selectedSeat.classList.remove('selected');
+                });
+                selectedAddons.seats = [];
+                
+                // Select this seat
+                this.classList.add('selected');
+                selectedAddons.seats.push(seatId);
+            }
+            
+            updateSeatDisplay();
+        });
+    });
+}
+
+// Update seat display
+function updateSeatDisplay() {
+    const seatCount = selectedAddons.seats.length;
+    // Note: The seat modal doesn't have specific total elements in your HTML
+    // You might need to add them or modify this function based on your needs
+    console.log(`${seatCount} seat(s) selected:`, selectedAddons.seats);
+}
+
+// Close modal when clicking outside
+function setupModalBackdropClose() {
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-backdrop')) {
+            const modals = document.querySelectorAll('.modal.show');
+            modals.forEach(modal => {
+                closeModal(modal.id);
+            });
+        }
+    });
+}
+
+// Close modal with Escape key
+function setupEscapeKeyClose() {
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modals = document.querySelectorAll('.modal.show');
+            modals.forEach(modal => {
+                closeModal(modal.id);
+            });
+        }
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSeatSelection();
+    setupModalBackdropClose();
+    setupEscapeKeyClose();
+    updateTotals(); // Initialize totals display
+});
+
+// Utility function to get current selections summary
+function getSelectionsSummary() {
+    return {
+        meals: selectedAddons.meals,
+        baggage: selectedAddons.baggage,
+        seats: selectedAddons.seats,
+        totalCost: baseFare + totalAmounts.meals + totalAmounts.baggage + totalAmounts.seats
+    };
+}
+    </script>
+</body>
+</html>
