@@ -4,102 +4,61 @@ import axios from "axios";
 export const expressSearchFlights = async (req, res) => {
   try {
     const {
-      tripType, // 'oneway', 'round', 'multi'
-      from,
-      to,
-      departure,
-      returnDate,
-      segments, // for multi-city: [{ from, to, date }]
-      adults,
-      children,
-      infants,
-      cabin, // 'E', 'B', etc.
-      directOnly,
-      refundableOnly,
-      airlines = "",
+      ADT,
+      CHD,
+      INF,
+      Cabin,
+      Source,
+      Mode,
+      ClientID,
+      TUI,
+      FareType,
+      Trips,
+      Parameters,
     } = req.body;
 
-    // Get the decoded clientID from middleware (from signature token)  no middleware yet
-    // const clientID = req.user?.client_id;
-    const clientID = req.body.ClientID || req.headers["clientid"]; //temporary fix
-    const tui = req.body.TUI || req.headers["tui"]; //temporary fix
     const token = req.headers["authorization"];
 
-    if (!clientID) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Unauthorized: Missing ClientID" });
-    }
+    console.log(req.headers, "headers");
+    console.log(req.body, "body");
+    
 
-    // Construct trip segments based on tripType
-    let Trips = [];
-
-    if (tripType === "oneway") {
-      Trips.push({
-        From: from,
-        To: to,
-        OnwardDate: departure,
-        TUI: "",
+    if (!ClientID || !token) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Missing ClientID or Token",
       });
-    } else if (tripType === "round") {
-      Trips.push(
-        {
-          From: from,
-          To: to,
-          OnwardDate: departure,
-          TUI: "",
-        },
-        {
-          From: to,
-          To: from,
-          OnwardDate: returnDate,
-          TUI: "",
-        }
-      );
-    } else if (tripType === "multi" && Array.isArray(segments)) {
-      Trips = segments.map((seg) => ({
-        From: seg.from,
-        To: seg.to,
-        OnwardDate: seg.date,
-        TUI: "",
-      }));
-    } else {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid tripType or segments" });
     }
 
-    // Compose ExpressSearch payload
     const payload = {
-      ADT: adults,
-      CHD: children,
-      INF: infants,
-      Cabin: cabin,
-      Source: "CF",
-      Mode: "AS",
-      ClientID: clientID,
-      TUI: "",
-      FareType: "ON",
+      ADT,
+      CHD,
+      INF,
+      Cabin,
+      Source: Source || "CF",
+      Mode: Mode || "AS",
+      ClientID,
+      TUI: TUI || "",
+      FareType: FareType || "ON",
       Trips,
       Parameters: {
-        Airlines: airlines,
-        GroupType: "",
-        Refundable: refundableOnly || false,
-        IsDirect: directOnly || false,
-        IsStudentFare: false,
-        IsNearbyAirport: false,
+        Airlines: Parameters?.Airlines || "",
+        GroupType: Parameters?.GroupType || "",
+        Refundable: Parameters?.Refundable || false,
+        IsDirect: Parameters?.IsDirect || false,
+        IsStudentFare: Parameters?.IsStudentFare || false,
+        IsNearbyAirport: Parameters?.IsNearbyAirport || false,
       },
     };
 
-    // Make the external API call
     const response = await axios.post(
       `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
       payload,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
-          TUI: tui,
-          ClientID: clientID,
+          Authorization: token,
+          ClientID,
+          TUI: TUI || "",
           "Content-Type": "application/json",
         },
       }
