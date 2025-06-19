@@ -21,7 +21,6 @@ export const expressSearchFlights = async (req, res) => {
 
     console.log(req.headers, "headers");
     console.log(req.body, "body");
-    
 
     if (!ClientID || !token) {
       return res.status(401).json({
@@ -63,6 +62,7 @@ export const expressSearchFlights = async (req, res) => {
         },
       }
     );
+    console.log(response, "response");
 
     return res.status(200).json({
       success: true,

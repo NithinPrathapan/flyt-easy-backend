@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- convert to bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <!-- remove the tailwind css and use bootstrap -->
+    <div
+      class="bg-primary h-100 w-100 d-flex flex-column gap-4 justify-content-center align-items-center p-4"
+    >
+      <h1
+        class="text-white text-2xl font-bold text-center text-decoration-underline text-decoration-offset-8 mb-5"
+      >
+        FlytEasy - Login
+      </h1>
+      <form
+        class="d-flex flex-column gap-4 bg-secondary p-4 rounded-md w-50"
+        id="signature-form"
+      >
+        <input
+          class="border border-gray-300 p-2 rounded-md form-control w-100"
+          type="text"
+          id="client-id"
+          placeholder="Client ID"
+        />
+
+        <input
+          class="border border-gray-300 p-2 rounded-md form-control w-100"
+          type="text"
+          id="client-password"
+          placeholder="Client Password"
+        />
+
+        <button
+          class="bg-primary text-white p-2 rounded-md form-control w-100"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+    <script>
+      const form = document.getElementById("signature-form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const clientId = document.getElementById("client-id").value;
+        const clientPassword = document.getElementById("client-password").value;
+
+        // will get a token from the backend store it in the local storage
+        const response = await fetch("http://localhost:5000/api/signature", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            clientId: clientId,
+            clientPassword: clientPassword,
+          }),
+        });
+        const data = await response.json();
+        console.log(data, "data");
+        if (data.success) {
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            window.location.href = "/index.html";
+          } else {
+            alert("Token is not generated");
+          }
+        } else {
+          alert(data.message);
+        }
+      });
+    </script>
+  </body>
+</html>

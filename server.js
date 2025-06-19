@@ -4,12 +4,14 @@ import connectDB from "./config/db.js";
 import indexRoutes from "./routes/index.routes.js";
 import cors from "cors";
 import morgan from "morgan";
+import path from "path";
 dotenv.config();
 connectDB();
+const __dirname = path.resolve();
 
 const app = express();
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
 app.use(express.static("public"));
@@ -20,6 +22,11 @@ app.use(
     credentials: true,
   })
 );
+// set the login form first to show when entering the app instead of the index.html
+
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "public", "login.html"));
+// });
 app.use("/api", indexRoutes);
 
 const PORT = process.env.PORT || 5000;
