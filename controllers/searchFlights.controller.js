@@ -15,6 +15,7 @@ export const expressSearchFlights = async (req, res) => {
       Trips,
       Parameters,
     } = req.body;
+    console.log(req.body, "body");
 
     if (!req.clientId) {
       return res.status(401).json({
