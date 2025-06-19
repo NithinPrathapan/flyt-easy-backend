@@ -843,7 +843,7 @@
         },
       ];
       let importantAirports = [];
-      
+
       async function getAirports() {
         // fetch from backend
         const baseUrl = "http://147.93.18.244:5000";
@@ -866,7 +866,7 @@
           return airports;
         }
       }
-      
+
       getAirports();
 
       // Initialize the form
@@ -878,14 +878,12 @@
       });
 
       function setupTripTypeListeners() {
-        document
-          .querySelectorAll('input[name="tripType"]')
-          .forEach((radio) => {
-            radio.addEventListener("change", function () {
-              currentTripType = this.id;
-              handleTripTypeChange();
-            });
+        document.querySelectorAll('input[name="tripType"]').forEach((radio) => {
+          radio.addEventListener("change", function () {
+            currentTripType = this.id;
+            handleTripTypeChange();
           });
+        });
       }
 
       function handleTripTypeChange() {
@@ -1110,8 +1108,7 @@
       function changeCount(type, change) {
         if (type === "adults") {
           travelers.adults = Math.max(1, travelers.adults + change);
-          document.getElementById("adultsCount").textContent =
-            travelers.adults;
+          document.getElementById("adultsCount").textContent = travelers.adults;
         } else if (type === "children") {
           travelers.children = Math.max(0, travelers.children + change);
           document.getElementById("childrenCount").textContent =
@@ -1198,6 +1195,9 @@
         }
         // TODO: Add roundTrip and multiCity logic
 
+        // Store search data for the flight search page
+        localStorage.setItem("searchData", JSON.stringify(searchData));
+
         // Call the backend API
         const response = await fetch(
           "http://147.93.18.244:5000/api/flight/express-search",
@@ -1212,7 +1212,7 @@
         );
         if (response.status === 401) {
           localStorage.removeItem("token");
-          window.location.href = "/login.html";
+          // window.location.href = "/login.html";
         }
         if (response.status === 200) {
           console.log(response, "response");
@@ -1220,7 +1220,7 @@
           // Store results for the next page
           localStorage.setItem("flightSearchResults", JSON.stringify(result));
           // Navigate to results page
-          window.location.href = "/flight-search.html";
+          // window.location.href = "/flight-search.html";
         }
       }
     </script>

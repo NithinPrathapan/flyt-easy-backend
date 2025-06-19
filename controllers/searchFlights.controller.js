@@ -10,19 +10,13 @@ export const expressSearchFlights = async (req, res) => {
       Cabin,
       Source,
       Mode,
-      ClientID,
       TUI,
       FareType,
       Trips,
       Parameters,
     } = req.body;
 
-    const token = req.headers["authorization"];
-
-    console.log(req.headers, "headers");
-    console.log(req.body, "body");
-
-    if (!ClientID || !token) {
+    if (!req.clientId) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized: Missing ClientID or Token",
@@ -36,7 +30,7 @@ export const expressSearchFlights = async (req, res) => {
       Cabin,
       Source: Source || "CF",
       Mode: Mode || "AS",
-      ClientID,
+      ClientID: req.clientId,
       TUI: TUI || "",
       FareType: FareType || "ON",
       Trips,
@@ -55,8 +49,8 @@ export const expressSearchFlights = async (req, res) => {
       payload,
       {
         headers: {
-          Authorization: token,
-          ClientID,
+          Authorization: req.token,
+          ClientID: req.clientId,
           TUI: TUI || "",
           "Content-Type": "application/json",
         },
