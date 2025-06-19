@@ -1,0 +1,227 @@
+:root {
+            --primary-color: #19427C;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --success-color: #28a745;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+        .btn-primary{
+            background-color: var(--primary-color) !important;
+        }
+        .text-primary{
+            color: var(--primary-color) !important;
+        }
+        .main-container {
+            padding-bottom: 6rem;
+        }
+
+        .header-sec {
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+            z-index: 1030;
+            justify-content: flex-start !important
+        }
+
+        .header-text {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .route-card {
+            background: var(--primary-color) !important;
+            margin-top: 4rem;
+        }
+
+        .flight-icon {
+            transform: rotate(45deg);
+        }
+
+        .flight-destination {
+            color: var(--primary-color);
+        }
+
+        .smaller-text {
+            font-size: 0.75rem;
+        }
+        .layover{
+            background-color: #fef3c7 !important;
+            color: #92400e !important;
+        }
+        .flight-line {
+            position: relative;
+            margin: 1rem 0;
+            padding-left: 1rem;
+        }
+
+        .flight-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 2px;
+            height: 60px;
+            background: #dee2e6;
+            transform: translateY(-50%);
+        }
+
+        .flight-duration {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        .airline-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .airline-logo {
+            background: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .layover-text {
+            font-size: 0.875rem;
+        }
+
+        .important-note {
+            color: var(--danger-color);
+        }
+
+        .baggage-icon {
+            font-size: 1.5rem;
+        }
+
+        .excess-baggage {
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .penalty-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .penalty-indicator.red {
+            background: var(--danger-color);
+        }
+
+        .penalty-indicator.yellow {
+            background: var(--warning-color);
+        }
+
+        .penalty-indicator.green {
+            background: var(--success-color);
+        }
+
+        .fixed-bottom {
+            z-index: 1020;
+        }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .fare-summary-modal .modal-dialog {
+            max-width: 500px;
+        }
+
+        .fare-rules-modal .modal-dialog {
+            max-width: 100%;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .fare-rules-modal .modal-content {
+            height: 100vh;
+            border-radius: 0;
+        }
+
+        .tab-menu {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6c757d;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-menu.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .route-info-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+
+        .airline-logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .notes-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .note-item {
+            display: flex;
+            margin-bottom: 0.75rem;
+        }
+
+        .bullet-point {
+            width: 4px;
+            height: 4px;
+            background: #6c757d;
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .modal-footer-total {
+            background: white;
+            border-top: 1px solid #dee2e6;
+            padding: 1rem;
+        }
+
+        .total-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: transparent;
+            border-color: transparent transparent var(--primary-color) transparent;
+            color: var(--primary-color);
+        }

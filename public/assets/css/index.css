@@ -1,0 +1,84 @@
+    /* Override Bootstrap variables using CSS */
+    :root {
+      --bs-primary: #19427C;
+      --bs-white: #FFFFFF;
+      --bs-body-font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        font-family: var(--bs-body-font-family);
+    }
+
+    .bg-primary {
+      background-color: var(--bs-primary) !important;
+    }
+    .btn-primary{
+        background-color: var(--bs-primary) !important;
+    }
+    .btn-check:checked + .btn {
+        background-color: var(--bs-primary) !important;
+    }
+    .text-primary{
+        color: var(--bs-primary) !important;
+    }
+
+    .text-white {
+      color: var(--bs-white) !important;
+    }
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+        }
+        
+        .logo-circle {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .offcanvas {
+            width: 300px;
+        }
+        
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .menu-link {
+            transition: all 0.2s ease;
+        }
+        
+        .menu-link:hover {
+            color: #0d6efd !important;
+        }
+        .airport-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .airport-full-name {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .from-to-info {
+            cursor: pointer;
+            flex: 1;
+        }
+        .divider {
+            width: 1px;
+            height: 30px;
+            background-color: #dee2e6;
+            margin: 0 15px;
+        }
+        .code-box {
+            min-width: 45px;
+            text-align: center;
+        }
+        .airport-list div:hover {
+            background-color: #f8f9fa;
+        }
+        .btn-check:checked + .btn {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }

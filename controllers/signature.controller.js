@@ -51,6 +51,7 @@ export const generateToken = async (req, res) => {
       message: "Token generated successfully",
     });
   } catch (err) {
+    console.log(err, "error");
     return res.status(500).json({
       success: false,
       message: "Failed to generate token",

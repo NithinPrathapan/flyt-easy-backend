@@ -1,0 +1,428 @@
+:root {
+            --bs-primary: #19427C;
+            --bs-white: #FFFFFF;
+            --bs-body-font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .bg-primary {
+            background-color: var(--bs-primary) !important;
+        }
+        .btn-primary{
+            background-color: var(--bs-primary) !important;
+        }
+        .text-primary{
+            color: var(--bs-primary) !important;
+        }
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px 16px;
+            font-size: 14px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #19427C;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .btn-outline-primary {
+            border-color: #19427C;
+            color: #19427C;
+            border-radius: 8px;
+            padding: 6px 12px;
+        }
+        .btn-outline-primary:hover {
+            background-color: #19427C;
+            border-color: #19427C;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            color: #6c757d;
+        }
+        .contact-item i {
+            width: 20px;
+            margin-right: 12px;
+            color: #19427C;
+        }
+        .title-selection {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .title-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .title-btn.active {
+            background: #19427C;
+            color: white;
+            border-color: #19427C;
+        }
+        .warning-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .warning-alert i {
+            color: #856404;
+            margin-right: 10px;
+        }
+        .traveller-count {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .added-count {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .modal-content {
+            border-radius: 12px;
+        }
+        .modal-header {
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 12px 12px 0 0;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 18px;
+            padding: 0;
+            margin-right: 15px;
+        }
+        .header-sec {
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+            z-index: 1030;
+            justify-content: flex-start !important
+        }
+        .header-text {
+            color: #333;
+            font-size: .9rem;
+            font-weight: 600;
+        }
+        .modal-title{
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        
+        .addon-services {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            /* margin: 20px; */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .addon-services h5 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .service-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1f5582;
+        }
+        
+        .service-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .add-link {
+            color: #1f5582;
+            font-size: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        /* Full Page Modal Styles */
+        .modal-fullscreen-custom {
+            display: none !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1055;
+            background: white;
+        }
+        .modal-fullscreen-custom.show {
+            display: block !important;
+        }
+        
+        .modal-fullscreen-custom .modal-dialog {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+        }
+        
+        .modal-fullscreen-custom .modal-content {
+            height: 100%;
+            border: none;
+            border-radius: 0;
+        }
+        
+        .modal-header-custom {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .modal-body-custom {
+            padding: 0;
+            overflow-y: auto;
+            height: calc(100vh - 130px);
+        }
+        
+        .flight-badge {
+            background: #1f5582;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 20px;
+        }
+        
+        .adult-badge {
+            background: #e8f5e8;
+            color: #28a745;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 0 20px 15px;
+            display: inline-block;
+        }
+        
+        .addon-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .addon-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .addon-icon {
+            width: 40px;
+            height: 40px;
+            background: #fff3cd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .addon-price {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .add-btn {
+            background: white;
+            border: 2px solid #1f5582;
+            color: #1f5582;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .add-btn:hover, .add-btn.added {
+            background: #1f5582;
+            color: white;
+        }
+        
+        .seat-map {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 20px;
+        }
+        
+        .seat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .seat-section {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .seat {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .seat.available {
+            background: white;
+            color: #666;
+        }
+        
+        .seat.occupied {
+            background: #17a2b8;
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .seat.selected {
+            background: #17a2b8;
+            color: white;
+            border-color: #17a2b8;
+        }
+        
+        .seat:hover:not(.occupied) {
+            background: #e9ecef;
+        }
+        
+        .row-number {
+            font-weight: 500;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            border-top: 1px solid #e9ecef;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .continue-btn {
+            background: #1f5582;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 50%;
+        }
+        
+        .total-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .baggage-icon { color: #8B4513; }
+        .seat-icon { color: #17a2b8; }
+        
+        @media (max-width: 576px) {
+            .service-grid {
+                gap: 10px;
+            }
+            
+            .service-card {
+                padding: 15px 10px;
+            }
+            
+            .service-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .seat {
+                width: 28px;
+                height: 28px;
+                font-size: 10px;
+            }
+        }

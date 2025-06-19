@@ -845,368 +845,383 @@
       let importantAirports = [];
       async function getAirports() {
         // fetch from backend
-        const baseUrl = "http://localhost:5000";
+        const baseUrl = "http://147.93.18.244:5000";
         const response = await fetch(`${baseUrl}/api/airport`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        const airports = await response.json();
-        console.log("Airports from backend:", airports);
-        importantAirports = airports;
-        populateAirportList();
-        return airports;
-      }
-      getAirports();
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          window.location.href = "/login.html";
+        }
+        if (response.status === 200) {
+          const airports = await response.json();
+          console.log("Airports from backend:", airports);
+          importantAirports = airports;
+          populateAirportList();
+          return airports;
+        }
+        getAirports();
 
-      // Initialize the form
-      document.addEventListener("DOMContentLoaded", function () {
-        setupTripTypeListeners();
-        populateAirportList();
-        renderMultiCityTrips();
-        updateTravelersDisplay();
-      });
-
-      function setupTripTypeListeners() {
-        document.querySelectorAll('input[name="tripType"]').forEach((radio) => {
-          radio.addEventListener("change", function () {
-            currentTripType = this.id;
-            handleTripTypeChange();
-          });
-        });
-      }
-
-      function handleTripTypeChange() {
-        const singleTripForm = document.getElementById("singleTripForm");
-        const multiCityForm = document.getElementById("multiCityForm");
-        const oneWayDate = document.getElementById("oneWayDate");
-        const roundTripDates = document.getElementById("roundTripDates");
-
-        if (currentTripType === "multiCity") {
-          singleTripForm.style.display = "none";
-          multiCityForm.style.display = "block";
+        // Initialize the form
+        document.addEventListener("DOMContentLoaded", function () {
+          setupTripTypeListeners();
+          populateAirportList();
           renderMultiCityTrips();
-        } else {
-          singleTripForm.style.display = "block";
-          multiCityForm.style.display = "none";
+          updateTravelersDisplay();
+        });
 
-          if (currentTripType === "oneWay") {
-            oneWayDate.style.display = "block";
-            roundTripDates.style.display = "none";
+        function setupTripTypeListeners() {
+          document
+            .querySelectorAll('input[name="tripType"]')
+            .forEach((radio) => {
+              radio.addEventListener("change", function () {
+                currentTripType = this.id;
+                handleTripTypeChange();
+              });
+            });
+        }
+
+        function handleTripTypeChange() {
+          const singleTripForm = document.getElementById("singleTripForm");
+          const multiCityForm = document.getElementById("multiCityForm");
+          const oneWayDate = document.getElementById("oneWayDate");
+          const roundTripDates = document.getElementById("roundTripDates");
+
+          if (currentTripType === "multiCity") {
+            singleTripForm.style.display = "none";
+            multiCityForm.style.display = "block";
+            renderMultiCityTrips();
           } else {
-            oneWayDate.style.display = "none";
-            roundTripDates.style.display = "block";
+            singleTripForm.style.display = "block";
+            multiCityForm.style.display = "none";
+
+            if (currentTripType === "oneWay") {
+              oneWayDate.style.display = "block";
+              roundTripDates.style.display = "none";
+            } else {
+              oneWayDate.style.display = "none";
+              roundTripDates.style.display = "block";
+            }
           }
         }
-      }
 
-      function swapCities() {
-        const temp = { ...currentFrom };
-        currentFrom = { ...currentTo };
-        currentTo = temp;
-        updateFromToDisplay();
-      }
-
-      function updateFromToDisplay() {
-        document.getElementById("fromName").textContent = currentFrom.name;
-        document.getElementById("fromAirport").textContent =
-          currentFrom.airport;
-        document.getElementById("fromCode").textContent = currentFrom.code;
-
-        document.getElementById("toName").textContent = currentTo.name;
-        document.getElementById("toAirport").textContent = currentTo.airport;
-        document.getElementById("toCode").textContent = currentTo.code;
-      }
-
-      function openAirportModal(type, tripIndex = 0) {
-        currentAirportSelection = { type, tripIndex };
-        document.getElementById("airportModalTitle").textContent =
-          type === "from" ? "From" : "To";
-        new bootstrap.Modal(document.getElementById("airportModal")).show();
-      }
-
-      function populateAirportList() {
-        const airportList = document.getElementById("airportList");
-        airportList.innerHTML = "";
-
-        importantAirports.forEach((airport) => {
-          const countryFlag =
-            airport.Country === "India"
-              ? "🇮🇳"
-              : airport.Country === "United Arab Emirates"
-              ? "🇦🇪"
-              : airport.Country === "Qatar"
-              ? "🇶🇦"
-              : "🇸🇦";
-
-          const airportDiv = document.createElement("div");
-          airportDiv.className =
-            "d-flex justify-content-between align-items-center p-2 border-bottom";
-          airportDiv.style.cursor = "pointer";
-          airportDiv.onclick = () => selectAirport(airport);
-
-          airportDiv.innerHTML = `
-                    <div class="d-flex align-items-center">
-                        <div class="code-box border border-1 px-2 py-1 rounded me-2 text-primary small">
-                            ${airport.Code}
-                        </div>
-                        <div>
-                            <div class="small fw-medium">${airport.CityName}</div>
-                            <small class="text-muted">${airport.Name}</small>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center"> 
-                            <small class="text-muted me-1">${airport.Country}</small>
-                    </div>
-                `;
-
-          airportList.appendChild(airportDiv);
-        });
-      }
-
-      function selectAirport(airport) {
-        const { type, tripIndex } = currentAirportSelection;
-
-        // Map backend airport object to frontend format
-        const mappedAirport = {
-          name: airport.CityName,
-          code: airport.Code,
-          airport: airport.Name,
-          country: airport.Country,
-        };
-
-        if (currentTripType === "multiCity") {
-          if (type === "from") {
-            multiCityTrips[tripIndex].from = mappedAirport;
-          } else {
-            multiCityTrips[tripIndex].to = mappedAirport;
-          }
-          renderMultiCityTrips();
-        } else {
-          if (type === "from") {
-            currentFrom = mappedAirport;
-          } else {
-            currentTo = mappedAirport;
-          }
+        function swapCities() {
+          const temp = { ...currentFrom };
+          currentFrom = { ...currentTo };
+          currentTo = temp;
           updateFromToDisplay();
         }
 
-        bootstrap.Modal.getInstance(
-          document.getElementById("airportModal")
-        ).hide();
-      }
+        function updateFromToDisplay() {
+          document.getElementById("fromName").textContent = currentFrom.name;
+          document.getElementById("fromAirport").textContent =
+            currentFrom.airport;
+          document.getElementById("fromCode").textContent = currentFrom.code;
 
-      function renderMultiCityTrips() {
-        const container = document.getElementById("multiCityTrips");
-        container.innerHTML = "";
-
-        multiCityTrips.forEach((trip, index) => {
-          const tripDiv = document.createElement("div");
-          tripDiv.className = "mb-3 border-bottom pb-3";
-
-          tripDiv.innerHTML = `
-                    <div class="card mb-2">
-                        <div class="card-body py-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="from-to-info" onclick="openAirportModal('from', ${index})">
-                                    <small class="text-muted d-block">From</small>
-                                    <div class="airport-name">${
-                                      trip.from.name
-                                    } (${trip.from.code})</div>
-                                    <div class="airport-full-name">${
-                                      trip.from.airport
-                                    }</div>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="from-to-info text-end" onclick="openAirportModal('to', ${index})">
-                                    <small class="text-muted d-block">To</small>
-                                    <div class="airport-name">${
-                                      trip.to.name
-                                    } (${trip.to.code})</div>
-                                    <div class="airport-full-name">${
-                                      trip.to.airport
-                                    }</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-2">
-                        <div class="card-body py-2">
-                            <small class="text-muted">Departure Date</small>
-                            <input type="date" class="form-control p-1 border-0" value="${
-                              trip.date
-                            }"
-                                   onchange="updateMultiCityDate(${index}, this.value)">
-                        </div>
-                    </div>
-                    ${
-                      index > 1
-                        ? `
-                        <button class="btn btn-outline-danger btn-sm mb-2" style="border: none;"
-                                onclick="removeCity(${index})">
-                            <i class="fas fa-trash text-danger"></i>
-                        </button>
-                    `
-                        : ""
-                    }
-                `;
-
-          container.appendChild(tripDiv);
-        });
-
-        // Update add city button state
-        const addCityBtn = document.getElementById("addCityBtn");
-        if (addCityBtn) {
-          addCityBtn.disabled = multiCityTrips.length >= 5;
+          document.getElementById("toName").textContent = currentTo.name;
+          document.getElementById("toAirport").textContent = currentTo.airport;
+          document.getElementById("toCode").textContent = currentTo.code;
         }
-      }
 
-      function addNewCity() {
-        if (multiCityTrips.length < 5) {
-          multiCityTrips.push({
-            from: {
-              name: "Mumbai",
-              code: "BOM",
-              airport: "Chhatrapati Shivaji International Airport",
-            },
-            to: {
-              name: "New Delhi",
-              code: "DEL",
-              airport: "Indira Gandhi International",
-            },
-            date: "2025-04-24",
+        function openAirportModal(type, tripIndex = 0) {
+          currentAirportSelection = { type, tripIndex };
+          document.getElementById("airportModalTitle").textContent =
+            type === "from" ? "From" : "To";
+          new bootstrap.Modal(document.getElementById("airportModal")).show();
+        }
+
+        function populateAirportList() {
+          const airportList = document.getElementById("airportList");
+          airportList.innerHTML = "";
+
+          importantAirports.forEach((airport) => {
+            const countryFlag =
+              airport.Country === "India"
+                ? "🇮🇳"
+                : airport.Country === "United Arab Emirates"
+                ? "🇦🇪"
+                : airport.Country === "Qatar"
+                ? "🇶🇦"
+                : "🇸🇦";
+
+            const airportDiv = document.createElement("div");
+            airportDiv.className =
+              "d-flex justify-content-between align-items-center p-2 border-bottom";
+            airportDiv.style.cursor = "pointer";
+            airportDiv.onclick = () => selectAirport(airport);
+
+            airportDiv.innerHTML = `
+                      <div class="d-flex align-items-center">
+                          <div class="code-box border border-1 px-2 py-1 rounded me-2 text-primary small">
+                              ${airport.Code}
+                          </div>
+                          <div>
+                              <div class="small fw-medium">${airport.CityName}</div>
+                              <small class="text-muted">${airport.Name}</small>
+                          </div>
+                      </div>
+                      <div class="d-flex align-items-center">
+                              <small class="text-muted me-1">${airport.Country}</small>
+                      </div>
+                  `;
+
+            airportList.appendChild(airportDiv);
           });
-          renderMultiCityTrips();
         }
-      }
 
-      function removeCity(index) {
-        if (multiCityTrips.length > 1) {
-          multiCityTrips.splice(index, 1);
-          renderMultiCityTrips();
-        }
-      }
+        function selectAirport(airport) {
+          const { type, tripIndex } = currentAirportSelection;
 
-      function updateMultiCityDate(index, date) {
-        multiCityTrips[index].date = date;
-      }
-
-      function openTravelersModal() {
-        new bootstrap.Modal(document.getElementById("travelersModal")).show();
-      }
-
-      function changeCount(type, change) {
-        if (type === "adults") {
-          travelers.adults = Math.max(1, travelers.adults + change);
-          document.getElementById("adultsCount").textContent = travelers.adults;
-        } else if (type === "children") {
-          travelers.children = Math.max(0, travelers.children + change);
-          document.getElementById("childrenCount").textContent =
-            travelers.children;
-        } else if (type === "infants") {
-          travelers.infants = Math.max(0, travelers.infants + change);
-          document.getElementById("infantsCount").textContent =
-            travelers.infants;
-        }
-      }
-
-      function selectTravelClass(className) {
-        travelClass = className;
-
-        // Reset all buttons
-        document.getElementById("economyBtn").className =
-          "btn btn-outline-secondary btn-sm";
-        document.getElementById("premiumBtn").className =
-          "btn btn-outline-secondary btn-sm";
-        document.getElementById("businessBtn").className =
-          "btn btn-outline-secondary btn-sm";
-
-        // Highlight selected button
-        if (className === "Economy") {
-          document.getElementById("economyBtn").className =
-            "btn btn-primary btn-sm";
-        } else if (className === "Premium Economy") {
-          document.getElementById("premiumBtn").className =
-            "btn btn-primary btn-sm";
-        } else if (className === "Business") {
-          document.getElementById("businessBtn").className =
-            "btn btn-primary btn-sm";
-        }
-      }
-
-      function applyTravelers() {
-        updateTravelersDisplay();
-      }
-
-      function updateTravelersDisplay() {
-        const totalTravelers =
-          travelers.adults + travelers.children + travelers.infants;
-        document.getElementById(
-          "travelersDisplay"
-        ).textContent = `${totalTravelers} Traveller${
-          totalTravelers > 1 ? "s" : ""
-        } | ${travelClass}`;
-      }
-
-      async function handleSearch() {
-        const searchData = {
-          tripType: currentTripType,
-          travelers: travelers,
-          travelClass: travelClass,
-        };
-        console.log(searchData, "searchData");
-
-        let apiPayload = {};
-        if (currentTripType === "oneWay") {
-          searchData.from = currentFrom;
-          searchData.to = currentTo;
-          searchData.date = document.getElementById("departureDate").value;
-
-          // Prepare API payload
-          apiPayload = {
-            ADT: travelers.adults,
-            CHD: travelers.children,
-            INF: travelers.infants,
-            Cabin: travelClass,
-            Source: "CF",
-            Mode: "AS",
-            ClientID: "1234567890", // Replace with actual value
-            TUI: "",
-            FareType: "ON",
-            Trips: [
-              {
-                Origin: currentFrom.code,
-                Destination: currentTo.code,
-                DepartureDate: searchData.date,
-              },
-            ],
-            Parameters: {},
+          // Map backend airport object to frontend format
+          const mappedAirport = {
+            name: airport.CityName,
+            code: airport.Code,
+            airport: airport.Name,
+            country: airport.Country,
           };
-        }
-        // TODO: Add roundTrip and multiCity logic
 
-        // Call the backend API
-        const response = await fetch(
-          "http://localhost:5000/api/flight/express-search",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              ClientID: "bitest", // Replace with actual value
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjMwMCIsIkFnZW50SW5mbyI6Ii9MRldjVENVQ3lkWVBjVGNuaFdLaWo0UXhhcXN2eFBIcWV0a0psY3NGZklxWmVCUkZIUlNTOFFRWE1ybk8vVDhFcmt6UnMyYzk3cnloS01sWXc3NitRPT0iLCJwd2QiOiJMMkV0NEcvWHE0bExYQUd4Q3M2REh3PT0iLCJhZ2VudENvZGUiOiIvS2ZkWXdlc3FQdz0iLCJjbGllbnRJZCI6IjJmelhFa014VkRVPSIsIkJyb3dzZXJLZXkiOiIrNlg5SlVvTSttNE9VdFRBMVoxamlaTlViRHhCMWIwY0VLR21ud2JyTmVwZERvd0xHeVVzT2c9PSIsIm5iZiI6MTc1MDMxMDkyNiwiZXhwIjoxNzU4OTUwOTI2LCJpYXQiOjE3NTAzMTA5MjYsImlzcyI6IndlYmNvbm5lY3QiLCJhdWQiOiJjbGllbnQifQ.VtkAOkyxHG-fvcYJcGMGxAt6S5LsVZPgyCyD6nIzPNg", // Replace with actual value
-            },
-            body: JSON.stringify(apiPayload),
+          if (currentTripType === "multiCity") {
+            if (type === "from") {
+              multiCityTrips[tripIndex].from = mappedAirport;
+            } else {
+              multiCityTrips[tripIndex].to = mappedAirport;
+            }
+            renderMultiCityTrips();
+          } else {
+            if (type === "from") {
+              currentFrom = mappedAirport;
+            } else {
+              currentTo = mappedAirport;
+            }
+            updateFromToDisplay();
           }
-        );
-        console.log(response, "response");
-        const result = await response.json();
-        // Store results for the next page
-        localStorage.setItem("flightSearchResults", JSON.stringify(result));
-        // Navigate to results page
-        window.location.href = "/flight-search.html";
+
+          bootstrap.Modal.getInstance(
+            document.getElementById("airportModal")
+          ).hide();
+        }
+
+        function renderMultiCityTrips() {
+          const container = document.getElementById("multiCityTrips");
+          container.innerHTML = "";
+
+          multiCityTrips.forEach((trip, index) => {
+            const tripDiv = document.createElement("div");
+            tripDiv.className = "mb-3 border-bottom pb-3";
+
+            tripDiv.innerHTML = `
+                      <div class="card mb-2">
+                          <div class="card-body py-2">
+                              <div class="d-flex justify-content-between align-items-center">
+                                  <div class="from-to-info" onclick="openAirportModal('from', ${index})">
+                                      <small class="text-muted d-block">From</small>
+                                      <div class="airport-name">${
+                                        trip.from.name
+                                      } (${trip.from.code})</div>
+                                      <div class="airport-full-name">${
+                                        trip.from.airport
+                                      }</div>
+                                  </div>
+                                  <div class="divider"></div>
+                                  <div class="from-to-info text-end" onclick="openAirportModal('to', ${index})">
+                                      <small class="text-muted d-block">To</small>
+                                      <div class="airport-name">${
+                                        trip.to.name
+                                      } (${trip.to.code})</div>
+                                      <div class="airport-full-name">${
+                                        trip.to.airport
+                                      }</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card mb-2">
+                          <div class="card-body py-2">
+                              <small class="text-muted">Departure Date</small>
+                              <input type="date" class="form-control p-1 border-0" value="${
+                                trip.date
+                              }"
+                                     onchange="updateMultiCityDate(${index}, this.value)">
+                          </div>
+                      </div>
+                      ${
+                        index > 1
+                          ? `
+                          <button class="btn btn-outline-danger btn-sm mb-2" style="border: none;"
+                                  onclick="removeCity(${index})">
+                              <i class="fas fa-trash text-danger"></i>
+                          </button>
+                      `
+                          : ""
+                      }
+                  `;
+
+            container.appendChild(tripDiv);
+          });
+
+          // Update add city button state
+          const addCityBtn = document.getElementById("addCityBtn");
+          if (addCityBtn) {
+            addCityBtn.disabled = multiCityTrips.length >= 5;
+          }
+        }
+
+        function addNewCity() {
+          if (multiCityTrips.length < 5) {
+            multiCityTrips.push({
+              from: {
+                name: "Mumbai",
+                code: "BOM",
+                airport: "Chhatrapati Shivaji International Airport",
+              },
+              to: {
+                name: "New Delhi",
+                code: "DEL",
+                airport: "Indira Gandhi International",
+              },
+              date: "2025-04-24",
+            });
+            renderMultiCityTrips();
+          }
+        }
+
+        function removeCity(index) {
+          if (multiCityTrips.length > 1) {
+            multiCityTrips.splice(index, 1);
+            renderMultiCityTrips();
+          }
+        }
+
+        function updateMultiCityDate(index, date) {
+          multiCityTrips[index].date = date;
+        }
+
+        function openTravelersModal() {
+          new bootstrap.Modal(document.getElementById("travelersModal")).show();
+        }
+
+        function changeCount(type, change) {
+          if (type === "adults") {
+            travelers.adults = Math.max(1, travelers.adults + change);
+            document.getElementById("adultsCount").textContent =
+              travelers.adults;
+          } else if (type === "children") {
+            travelers.children = Math.max(0, travelers.children + change);
+            document.getElementById("childrenCount").textContent =
+              travelers.children;
+          } else if (type === "infants") {
+            travelers.infants = Math.max(0, travelers.infants + change);
+            document.getElementById("infantsCount").textContent =
+              travelers.infants;
+          }
+        }
+
+        function selectTravelClass(className) {
+          travelClass = className;
+
+          // Reset all buttons
+          document.getElementById("economyBtn").className =
+            "btn btn-outline-secondary btn-sm";
+          document.getElementById("premiumBtn").className =
+            "btn btn-outline-secondary btn-sm";
+          document.getElementById("businessBtn").className =
+            "btn btn-outline-secondary btn-sm";
+
+          // Highlight selected button
+          if (className === "Economy") {
+            document.getElementById("economyBtn").className =
+              "btn btn-primary btn-sm";
+          } else if (className === "Premium Economy") {
+            document.getElementById("premiumBtn").className =
+              "btn btn-primary btn-sm";
+          } else if (className === "Business") {
+            document.getElementById("businessBtn").className =
+              "btn btn-primary btn-sm";
+          }
+        }
+
+        function applyTravelers() {
+          updateTravelersDisplay();
+        }
+
+        function updateTravelersDisplay() {
+          const totalTravelers =
+            travelers.adults + travelers.children + travelers.infants;
+          document.getElementById(
+            "travelersDisplay"
+          ).textContent = `${totalTravelers} Traveller${
+            totalTravelers > 1 ? "s" : ""
+          } | ${travelClass}`;
+        }
+
+        async function handleSearch() {
+          const searchData = {
+            tripType: currentTripType,
+            travelers: travelers,
+            travelClass: travelClass,
+          };
+          console.log(searchData, "searchData");
+
+          let apiPayload = {};
+          if (currentTripType === "oneWay") {
+            searchData.from = currentFrom;
+            searchData.to = currentTo;
+            searchData.date = document.getElementById("departureDate").value;
+
+            // Prepare API payload
+            apiPayload = {
+              ADT: travelers.adults,
+              CHD: travelers.children,
+              INF: travelers.infants,
+              Cabin: travelClass,
+              Source: "CF",
+              Mode: "AS",
+              ClientID: "1234567890", // Replace with actual value
+              TUI: "",
+              FareType: "ON",
+              Trips: [
+                {
+                  Origin: currentFrom.code,
+                  Destination: currentTo.code,
+                  DepartureDate: searchData.date,
+                },
+              ],
+              Parameters: {},
+            };
+          }
+          // TODO: Add roundTrip and multiCity logic
+
+          // Call the backend API
+          const response = await fetch(
+            "http://147.93.18.244:5000/api/flight/express-search",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              body: JSON.stringify(apiPayload),
+            }
+          );
+          if (response.status === 401) {
+            localStorage.removeItem("token");
+            window.location.href = "/login.html";
+          }
+          if (response.status === 200) {
+            console.log(response, "response");
+            const result = await response.json();
+            // Store results for the next page
+            localStorage.setItem("flightSearchResults", JSON.stringify(result));
+            // Navigate to results page
+            window.location.href = "/flight-search.html";
+          }
+        }
       }
+      handleSearch();
     </script>
   </body>
 </html>

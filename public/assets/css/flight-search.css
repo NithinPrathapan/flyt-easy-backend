@@ -1,0 +1,219 @@
+ :root {
+            --bs-primary: #19427C;
+            --bs-white: #FFFFFF;
+            --bs-body-font-family: 'Poppins', sans-serif;
+        }        
+        body{
+            background-color: #f8f9fa;
+        }
+        .text-primary{
+            color: var(--bs-primary) !important;
+        }
+        .flight-search-container {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .search-header {
+            background: white;
+            z-index: 1030;
+        }
+
+        .route-info {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .travel-info {
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+        }
+
+        .flight-results {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flight-card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .flight-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .airline-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .airline-logo.spicejet {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+        }
+
+        .airline-logo.akasa {
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+        }
+
+        .airline-logo.indigo {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+
+        .flight-number {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .departure-time, .arrival-time {
+            font-size: 1.1rem;
+        }
+
+        .airport-code {
+            font-size: 0.8rem;
+        }
+
+        .duration-container {
+            position: relative;
+        }
+
+        .flight-line {
+            position: relative;
+            margin: 0.5rem 0;
+            height: 2px;
+        }
+
+        .progress-line {
+            width: 100%;
+            height: 2px;
+            background: var(--bs-primary) !important;
+            border-radius: 1px;
+        }
+
+        .stop-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #007bff;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .layover-info {
+            font-size: 0.9rem;
+        }
+
+        .original-price {
+            font-size: 0.9rem;
+        }
+
+        .final-price {
+            font-size: 1.2rem;
+        }
+
+        .filter-panel {
+            width: 350px !important;
+        }
+
+        .filter-heading {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .price-filter-btn {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .time-icon {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .time-filter-checkbox,
+        .stop-filter-checkbox,
+        .airline-filter-checkbox {
+            margin-bottom: 0.5rem;
+        }
+
+        .airline-logo-filter {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .airline-logo-filter.spicejet {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+        }
+
+        .airline-logo-filter.akasa {
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+        }
+
+        .airline-logo-filter.indigo {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        }
+
+        .filter-actions {
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
+            background: white;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .fare-modal {
+            max-width: 600px;
+        }
+
+        .fare-option {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fare-option.selected {
+            border-color: #007bff;
+            background-color: #f8f9ff;
+        }
+
+        .fare-option:hover {
+            border-color: #007bff;
+        }
+
+        .lucide-icon {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
