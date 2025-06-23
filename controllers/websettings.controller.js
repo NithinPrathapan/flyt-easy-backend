@@ -1,10 +1,15 @@
 import axios from "axios";
 
 export const getWebSettings = async (req, res) => {
+  console.log('======================================');
+  
+  
   try {
-    const { ClientID, TUI } = req.body;
-
-    const payload = { ClientID, TUI };
+    const ClientID = req.ClientID;
+    const TUI = req.TUI;
+    const Token = req.Token;
+    const payload = { ClientID, TUI, Token };
+    console.log(payload, "payload");
 
     const response = await axios.post(
       `${process.env.UTILS_URL}/Utils/WebSettings`,
