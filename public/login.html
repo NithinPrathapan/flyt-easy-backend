@@ -170,6 +170,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/js/config.js"></script>
   <script src="./assets/js/tokenManager.js"></script>
   
   <script>
@@ -237,7 +238,7 @@
         console.log('🔄 Calling Signature API...');
         
         // Call the Signature API to get JWT token
-        const response = await fetch('http://localhost:3000/api/signature', {
+        const response = await fetch(`${window.appConfig.API_BASE_URL}/api/signature`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -260,7 +261,7 @@
             try {
               console.log('🔄 Fetching websetting data...');
               const websettingResponse = await tokenManager.authenticatedRequest(
-                'http://localhost:3000/api/websetting',
+                `${window.appConfig.API_BASE_URL}/api/websetting`,
                 {
                   method: 'POST',
                   body: JSON.stringify({})

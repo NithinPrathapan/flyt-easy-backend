@@ -352,7 +352,7 @@
                         
                         console.log('Transformed flights:', flights);
                     } else {
-                        console.error('No valid search results found');
+                        console.error('No valid search results found in localStorage or search was unsuccessful.');
                         showNoResultsMessage();
                     }
                 } catch (error) {
@@ -364,30 +364,16 @@
             function transformFlightData(backendData) {
                 console.log('Transforming backend data:', backendData);
                 
-                // Handle different possible backend response structures
                 let flightArray = [];
                 
-                // If backendData is an array, use it directly
-                if (Array.isArray(backendData)) {
-                    flightArray = backendData;
+                if (backendData && backendData.Results && Array.isArray(backendData.Results)) {
+                    // The API returns an array of arrays, so we flatten it.
+                    flightArray = backendData.Results.flat();
+                } else {
+                    console.error('Flight results are not in the expected format (backendData.Results is not an array).');
+                    return [];
                 }
-                // If backendData has a flights property
-                else if (backendData && backendData.flights && Array.isArray(backendData.flights)) {
-                    flightArray = backendData.flights;
-                }
-                // If backendData has a data property
-                else if (backendData && backendData.data && Array.isArray(backendData.data)) {
-                    flightArray = backendData.data;
-                }
-                // If backendData has a results property
-                else if (backendData && backendData.results && Array.isArray(backendData.results)) {
-                    flightArray = backendData.results;
-                }
-                // If it's a single flight object, wrap it in an array
-                else if (backendData && typeof backendData === 'object' && !Array.isArray(backendData)) {
-                    flightArray = [backendData];
-                }
-                
+
                 console.log('Flight array to process:', flightArray);
                 
                 if (!flightArray || flightArray.length === 0) {
@@ -398,7 +384,6 @@
                 return flightArray.map((flight, index) => {
                     console.log('Processing flight:', flight);
                     
-                    // Try to extract flight information with multiple possible property names
                     const flightInfo = {
                         id: index + 1,
                         airline: extractAirlineName(flight),
@@ -422,74 +407,71 @@
             }
 
             function extractAirlineName(flight) {
-                return flight.AirlineName || flight.airline || flight.Airline || flight.airlineName || 
-                       flight.Carrier || flight.carrier || flight.Operator || flight.operator || 'Unknown';
+                return flight.AirlineName || 'Unknown';
             }
 
             function extractFlightNumber(flight) {
-                const flightNum = flight.FlightNumber || flight.flightNumber || flight.Flight || flight.flight || 
-                                 flight.Number || flight.number || '0000';
-                const airlineCode = flight.AirlineCode || flight.airlineCode || flight.Code || flight.code || 'XX';
-                return `${airlineCode} - ${flightNum}`;
+                return flight.FlightNumber || `${flight.AirlineCode || 'XX'}-${flight.Number || '0000'}`;
             }
 
             function extractDepartureTime(flight) {
-                return flight.DepartureTime || flight.departureTime || flight.DepTime || flight.depTime || 
-                       flight.Departure || flight.departure || '00:00';
+                return flight.DepartureTime ? flight.DepartureTime.slice(0, 5) : '00:00';
             }
 
             function extractDepartureCode(flight) {
-                return flight.Origin || flight.origin || flight.From || flight.from || 
-                       flight.DepartureCode || flight.departureCode || 'XXX';
+                return flight.Origin || 'XXX';
             }
 
             function extractArrivalTime(flight) {
-                return flight.ArrivalTime || flight.arrivalTime || flight.ArrTime || flight.arrTime || 
-                       flight.Arrival || flight.arrival || '00:00';
+                return flight.ArrivalTime ? flight.ArrivalTime.slice(0, 5) : '00:00';
             }
 
             function extractArrivalCode(flight) {
-                return flight.Destination || flight.destination || flight.To || flight.to || 
-                       flight.ArrivalCode || flight.arrivalCode || 'XXX';
+                return flight.Destination || 'XXX';
             }
 
             function extractDuration(flight) {
-                return flight.Duration || flight.duration || flight.FlightTime || flight.flightTime || 
-                       flight.Time || flight.time || '0h 0m';
+                return flight.Duration || '0h 0m';
             }
 
             function extractStops(flight) {
-                const stops = flight.Stops || flight.stops || flight.StopCount || flight.stopCount || 0;
-                if (stops === 0 || stops === '0' || stops === 'Non Stop') return 'Non Stop';
-                if (stops === 1 || stops === '1') return '1 Stop';
-                if (stops === 2 || stops === '2') return '2 Stops';
-                return `${stops} Stops`;
+                const stops = flight.Stops;
+                if (stops === 0) return 'Non Stop';
+                if (stops === 1) return '1 Stop';
+                if (stops >= 2) return `${stops} Stops`;
+                return 'Non Stop'; // Default case
             }
 
             function extractLayover(flight) {
-                return flight.Layover || flight.layover || flight.Stopover || flight.stopover || 
-                       flight.StopInfo || flight.stopInfo || 'Direct flight';
+                return flight.Layover || 'Direct flight';
             }
 
             function extractPrice(flight) {
-                const price = flight.Price || flight.price || flight.Fare || flight.fare || 
-                             flight.TotalPrice || flight.totalPrice || flight.Amount || flight.amount || 0;
-                return parseInt(price) || 0;
+                if (flight.Fares && flight.Fares.length > 0) {
+                    return Math.round(flight.Fares[0].TotalFare || 0);
+                }
+                return flight.Price || 0;
             }
 
             function extractOriginalPrice(flight) {
-                const originalPrice = flight.OriginalPrice || flight.originalPrice || 
-                                     flight.BasePrice || flight.basePrice || 
-                                     flight.ListPrice || flight.listPrice || 
-                                     extractPrice(flight);
-                return parseInt(originalPrice) || extractPrice(flight);
+                 if (flight.Fares && flight.Fares.length > 0) {
+                    const fare = flight.Fares[0];
+                    const baseFare = fare.BaseFare || 0;
+                    const tax = fare.Tax || 0;
+                    if (baseFare > 0) return Math.round(baseFare + tax);
+                    // Fallback if no base fare: show a slightly higher price
+                    return Math.round((fare.TotalFare || 0) * 1.1); 
+                }
+                return Math.round((flight.Price || 0) * 1.1);
             }
 
             function extractDiscount(flight) {
-                const discount = flight.Discount || flight.discount || 
-                                flight.Savings || flight.savings || 
-                                flight.Offer || flight.offer || 0;
-                return parseInt(discount) || 0;
+                const price = extractPrice(flight);
+                const originalPrice = extractOriginalPrice(flight);
+                if (originalPrice > price) {
+                    return originalPrice - price;
+                }
+                return flight.Discount || 0;
             }
 
             function getAirlineLogo(airlineName) {
