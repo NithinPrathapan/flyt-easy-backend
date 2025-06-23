@@ -1240,17 +1240,24 @@
             const getExpSearchResult = await getExpSearchResponse.json();
             console.log(getExpSearchResult, "getExpSearchResult");
             console.log("=======================================");
-            if (getExpSearchResult.success === true) {
-              console.log("================inside");
-              console.log(getExpSearchResult.data.completed, "completed");
-              if (getExpSearchResult.data.completed === "True") {
+            if (getExpSearchResult.success) {
+              const completed =
+                getExpSearchResult.data.Completed ||
+                getExpSearchResult.data.completed;
+              if (completed === "True" || completed === true) {
                 localStorage.setItem(
                   "flightSearchResults",
                   JSON.stringify(getExpSearchResult.data)
                 );
-                console.log("================inside ===completed");
+                console.log("✅ Flight search complete, redirecting...");
                 window.location.href = "/flight-search.html";
+              } else {
+                console.warn(
+                  "🔄 Search still in progress. Consider polling again..."
+                );
               }
+            } else {
+              console.error("❌ Failed to retrieve ExpressSearch result.");
             }
           }
           // Navigate to results page
