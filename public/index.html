@@ -1241,11 +1241,13 @@
             console.log(getExpSearchResult, "getExpSearchResult");
             console.log("=======================================");
             if (getExpSearchResult.success === true) {
-              if (getExpSearchResult.completed) {
+              console.log("================inside");
+              if (getExpSearchResult.completed === "True") {
                 localStorage.setItem(
                   "flightSearchResults",
                   JSON.stringify(getExpSearchResult)
                 );
+                console.log("================inside ===completed");
                 window.location.href = "/flight-search.html";
               }
             }
