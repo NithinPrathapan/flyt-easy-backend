@@ -88,7 +88,7 @@ export const getExpSearchFlights = async (req, res) => {
 
   try {
     const response = await axios.post(
-      `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
+      `${process.env.FLIGHT_URL}${process.env.GET_EXP_SEARCH}`,
       payload,
       {
         headers: {
