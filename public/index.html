@@ -1242,6 +1242,7 @@
             console.log("=======================================");
             if (getExpSearchResult.success === true) {
               console.log("================inside");
+              console.log(getExpSearchResult.completed, "completed");
               if (getExpSearchResult.completed === "True") {
                 localStorage.setItem(
                   "flightSearchResults",
