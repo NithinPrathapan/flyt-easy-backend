@@ -76,3 +76,37 @@ export const expressSearchFlights = async (req, res) => {
     });
   }
 };
+
+export const getExpSearchFlights = async (req, res) => {
+  const { TUI } = req.body;
+  const clientId = req.clientId;
+  const payload = {
+    TUI,
+    ClientID: clientId,
+  };
+  console.log(TUI, clientId, "TUI");
+
+  try {
+    const response = await axios.post(
+      `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
+      payload,
+      {
+        headers: {
+          Authorization: req.token,
+          ClientID: req.clientId,
+        },
+      }
+    );
+    console.log(response, "response");
+  } catch (error) {
+    console.error(
+      "ExpressSearch Error:",
+      error?.response?.data || error.message
+    );
+    return res.status(500).json({
+      success: false,
+      message: "ExpressSearch failed",
+      error: error?.response?.data || error.message,
+    });
+  }
+};

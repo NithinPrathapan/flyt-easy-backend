@@ -1219,8 +1219,13 @@
           console.log(response, "response");
           const result = await response.json();
           console.log(result, "result");
-          // Store results for the next page
-          localStorage.setItem("flightSearchResults", JSON.stringify(result));
+          if (result.success === true) {
+            let TUI = result.TUI;
+            // Store results for the next page
+            localStorage.setItem("flightSearchResults", JSON.stringify(result));
+            const token = localStorage.getItem("token");
+            console.log(token, "token");
+          }
           // Navigate to results page
           // window.location.href = "/flight-search.html";
         }
