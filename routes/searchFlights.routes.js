@@ -9,6 +9,6 @@ router.post(
   authenticateToken,
   flightController.expressSearchFlights
 );
-router.post("/flight/getexpsearch", authenticateToken, getExpSearchFlights);
+router.post("/getexpsearch", authenticateToken, getExpSearchFlights);
 
 export default router;

@@ -2,6 +2,8 @@
 import axios from "axios";
 
 export const expressSearchFlights = async (req, res) => {
+  console.log('callingggg ===============================5');
+  
   try {
     const {
       ADT,
@@ -10,10 +12,8 @@ export const expressSearchFlights = async (req, res) => {
       Cabin,
       Source,
       Mode,
-      TUI,
       FareType,
       Trips,
-      Parameters,
     } = req.body;
     console.log(req.body, "body");
 
@@ -24,26 +24,20 @@ export const expressSearchFlights = async (req, res) => {
       });
     }
 
+    // Only send required fields to upstream API
     const payload = {
       ADT,
       CHD,
       INF,
       Cabin,
       Source: Source || "CF",
-      Mode: Mode || "AS",
+      Mode: Mode || "SY",
       ClientID: req.clientId,
-      TUI: TUI || "",
       FareType: FareType || "ON",
       Trips,
-      Parameters: {
-        Airlines: Parameters?.Airlines || "",
-        GroupType: Parameters?.GroupType || "",
-        Refundable: Parameters?.Refundable || false,
-        IsDirect: Parameters?.IsDirect || false,
-        IsStudentFare: Parameters?.IsStudentFare || false,
-        IsNearbyAirport: Parameters?.IsNearbyAirport || false,
-      },
     };
+
+    console.log('Payload sent to upstream:', payload);
 
     const response = await axios.post(
       `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
@@ -52,12 +46,11 @@ export const expressSearchFlights = async (req, res) => {
         headers: {
           Authorization: req.token,
           ClientID: req.clientId,
-          TUI: TUI || "",
           "Content-Type": "application/json",
         },
       }
     );
-    console.log(response, "response");
+    console.log(response.data, "response");
 
     return res.status(200).json({
       success: true,
@@ -79,6 +72,8 @@ export const expressSearchFlights = async (req, res) => {
 
 export const getExpSearchFlights = async (req, res) => {
   const { TUI } = req.body;
+  console.log(TUI, "TUI======================");
+  
   const clientId = req.clientId;
   const payload = {
     TUI,
@@ -97,7 +92,7 @@ export const getExpSearchFlights = async (req, res) => {
         },
       }
     );
-    console.log(response, "response");
+    // console.log(response, "response");
     return res.status(200).json({
       success: true,
       message: "ExpressSearch Results Retrieved",

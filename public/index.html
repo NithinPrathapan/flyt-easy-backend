@@ -153,7 +153,7 @@
       <!-- One Way / Round Trip Form -->
       <div id="singleTripForm">
         <!-- From Field -->
-        <div class="card mb-1" onclick="openAirportModal('from')" style="cursor: pointer">
+        <div class="card mb-1" onclick="openAirportModal('from', 0, this)" style="cursor: pointer">
           <div class="card-body py-2">
             <small class="text-muted">From</small>
             <div class="d-flex justify-content-between align-items-center">
@@ -186,7 +186,7 @@
         </div>
 
         <!-- To Field -->
-        <div class="card mb-2" onclick="openAirportModal('to')" style="cursor: pointer">
+        <div class="card mb-2" onclick="openAirportModal('to', 0, this)" style="cursor: pointer">
           <div class="card-body py-2">
             <small class="text-muted">To</small>
             <div class="d-flex justify-content-between align-items-center">
@@ -205,7 +205,7 @@
         <div id="oneWayDate" class="card mb-3">
           <div class="card-body py-2">
             <small class="text-muted">Departure Date</small>
-            <input type="date" class="form-control p-1 border-0" id="departureDate" value="2025-04-24" />
+            <input type="date" class="form-control p-1 border-0" id="departureDate" min="2024-06-23" />
           </div>
         </div>
 
@@ -577,6 +577,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/js/tokenManager.js"></script>
 
   <script>
     function showSidebar() {
@@ -589,22 +590,15 @@
     // Global state variables
     let currentTripType = "oneWay";
     let currentAirportSelection = { type: "from", tripIndex: 0 };
+    let modalTriggerElement = null; // To store the element that opened the modal
 
     // Travelers state
     let travelers = { adults: 1, children: 0, infants: 0 };
     let travelClass = "Economy";
 
     // Airport data
-    let currentFrom = {
-      name: "Mumbai",
-      code: "BOM",
-      airport: "Chhatrapati Shivaji International Airport",
-    };
-    let currentTo = {
-      name: "New Delhi",
-      code: "DEL",
-      airport: "Indira Gandhi International",
-    };
+    let currentFrom = null;
+    let currentTo = null;
 
     // Multi-city trips
     let multiCityTrips = [
@@ -638,36 +632,67 @@
     let importantAirports = [];
 
     async function getAirports() {
-      // fetch from backend
-      const baseUrl = "http://localhost:3000";
-      const response = await fetch(`${baseUrl}/api/airport`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login.html";
-      }
-      if (response.status === 200) {
+      try {
+        const response = await tokenManager.authenticatedRequest("http://localhost:3000/api/airport");
         const airports = await response.json();
-        console.log("Airports from backend:", airports);
-        importantAirports = airports;
-        populateAirportList();
-        return airports;
+        
+        if (airports && airports.length > 0) {
+          importantAirports = airports;
+          populateAirportList();
+
+          // Set default airports
+          currentFrom = { name: airports[0].CityName, code: airports[0].Code, airport: airports[0].Name };
+          currentTo = { name: airports[1].CityName, code: airports[1].Code, airport: airports[1].Name };
+          
+          updateFromToDisplay();
+        }
+      } catch (error) {
+        console.error("Failed to fetch airports:", error);
+        if (error.message.includes('Session expired')) {
+          tokenManager.requireAuth();
+        }
       }
     }
 
-    getAirports();
-
     // Initialize the form
     document.addEventListener("DOMContentLoaded", function () {
-      setupTripTypeListeners();
-      populateAirportList();
-      renderMultiCityTrips();
-      updateTravelersDisplay();
+      if (tokenManager.requireAuth()) {
+        getAirports();
+        setupTripTypeListeners();
+        renderMultiCityTrips();
+        updateTravelersDisplay();
+
+        // Set up focus management for the airport modal
+        const airportModalEl = document.getElementById('airportModal');
+        if (airportModalEl) {
+          airportModalEl.addEventListener('hide.bs.modal', () => {
+            if (modalTriggerElement) {
+              modalTriggerElement.focus();
+            }
+          });
+          airportModalEl.addEventListener('hidden.bs.modal', () => {
+            modalTriggerElement = null;
+          });
+        }
+
+        // Set min and default value for date pickers
+        const today = new Date().toISOString().split('T')[0];
+        const depDate = document.getElementById('departureDate');
+        if (depDate) {
+          depDate.min = today;
+          depDate.value = today;
+        }
+        const roundDep = document.getElementById('roundTripDeparture');
+        if (roundDep) {
+          roundDep.min = today;
+          roundDep.value = today;
+        }
+        const roundRet = document.getElementById('roundTripReturn');
+        if (roundRet) {
+          roundRet.min = today;
+          roundRet.value = today;
+        }
+      }
     });
 
     function setupTripTypeListeners() {
@@ -711,17 +736,20 @@
     }
 
     function updateFromToDisplay() {
-      document.getElementById("fromName").textContent = currentFrom.name;
-      document.getElementById("fromAirport").textContent =
-        currentFrom.airport;
-      document.getElementById("fromCode").textContent = currentFrom.code;
-
-      document.getElementById("toName").textContent = currentTo.name;
-      document.getElementById("toAirport").textContent = currentTo.airport;
-      document.getElementById("toCode").textContent = currentTo.code;
+      if (currentFrom) {
+        document.getElementById("fromName").textContent = currentFrom.name;
+        document.getElementById("fromAirport").textContent = currentFrom.airport;
+        document.getElementById("fromCode").textContent = currentFrom.code;
+      }
+      if (currentTo) {
+        document.getElementById("toName").textContent = currentTo.name;
+        document.getElementById("toAirport").textContent = currentTo.airport;
+        document.getElementById("toCode").textContent = currentTo.code;
+      }
     }
 
-    function openAirportModal(type, tripIndex = 0) {
+    function openAirportModal(type, tripIndex = 0, triggerElement) {
+      modalTriggerElement = triggerElement; // Store the trigger
       currentAirportSelection = { type, tripIndex };
       document.getElementById("airportModalTitle").textContent =
         type === "from" ? "From" : "To";
@@ -794,9 +822,10 @@
         updateFromToDisplay();
       }
 
-      bootstrap.Modal.getInstance(
-        document.getElementById("airportModal")
-      ).hide();
+      const modalInstance = bootstrap.Modal.getInstance(document.getElementById("airportModal"));
+      if (modalInstance) {
+          modalInstance.hide();
+      }
     }
 
     function renderMultiCityTrips() {
@@ -811,7 +840,7 @@
                     <div class="card mb-2">
                         <div class="card-body py-2">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="from-to-info" onclick="openAirportModal('from', ${index})">
+                                <div class="from-to-info" onclick="openAirportModal('from', ${index}, this)">
                                     <small class="text-muted d-block">From</small>
                                     <div class="airport-name">${trip.from.name
           } (${trip.from.code})</div>
@@ -819,7 +848,7 @@
           }</div>
                                 </div>
                                 <div class="divider"></div>
-                                <div class="from-to-info text-end" onclick="openAirportModal('to', ${index})">
+                                <div class="from-to-info text-end" onclick="openAirportModal('to', ${index}, this)">
                                     <small class="text-muted d-block">To</small>
                                     <div class="airport-name">${trip.to.name
           } (${trip.to.code})</div>
@@ -910,26 +939,13 @@
 
     function selectTravelClass(className) {
       travelClass = className;
-
-      // Reset all buttons
-      document.getElementById("economyBtn").className =
-        "btn btn-outline-secondary btn-sm";
-      document.getElementById("premiumBtn").className =
-        "btn btn-outline-secondary btn-sm";
-      document.getElementById("businessBtn").className =
-        "btn btn-outline-secondary btn-sm";
-
-      // Highlight selected button
-      if (className === "Economy") {
-        document.getElementById("economyBtn").className =
-          "btn btn-primary btn-sm";
-      } else if (className === "Premium Economy") {
-        document.getElementById("premiumBtn").className =
-          "btn btn-primary btn-sm";
-      } else if (className === "Business") {
-        document.getElementById("businessBtn").className =
-          "btn btn-primary btn-sm";
-      }
+      document.getElementById("economyBtn").className = "btn btn-outline-secondary btn-sm";
+      document.getElementById("premiumBtn").className = "btn btn-outline-secondary btn-sm";
+      document.getElementById("businessBtn").className = "btn btn-outline-secondary btn-sm";
+      
+      if (className === "Economy") document.getElementById("economyBtn").className = "btn btn-primary btn-sm";
+      else if (className === "Premium Economy") document.getElementById("premiumBtn").className = "btn btn-primary btn-sm";
+      else if (className === "Business") document.getElementById("businessBtn").className = "btn btn-primary btn-sm";
     }
 
     function applyTravelers() {
@@ -946,12 +962,16 @@
     }
 
     async function handleSearch() {
+      if (!currentFrom || !currentTo) {
+        alert("Please select departure and destination airports.");
+        return;
+      }
+
       const searchData = {
         tripType: currentTripType,
         travelers: travelers,
         travelClass: travelClass,
       };
-      console.log(searchData, "searchData");
 
       let apiPayload = {};
       if (currentTripType === "oneWay") {
@@ -959,96 +979,95 @@
         searchData.to = currentTo;
         searchData.date = document.getElementById("departureDate").value;
 
-        // Prepare API payload
         apiPayload = {
           ADT: travelers.adults,
           CHD: travelers.children,
           INF: travelers.infants,
-          Cabin: travelClass,
-          Source: "CF",
-          Mode: "AS",
-          ClientID: "1234567890", // Replace with actual value
-          TUI: "",
-          FareType: "ON",
+          Cabin: travelClass.charAt(0).toUpperCase(),
           Trips: [
             {
-              Origin: currentFrom.code,
-              Destination: currentTo.code,
-              DepartureDate: searchData.date,
+              From: currentFrom.code,
+              To: currentTo.code,
+              OnwardDate: searchData.date,
             },
           ],
-          Parameters: {},
         };
       }
-      console.log(apiPayload, "apiPayload");
       // TODO: Add roundTrip and multiCity logic
 
-      // Store search data for the flight search page
       localStorage.setItem("searchData", JSON.stringify(searchData));
 
-      // Call the backend API
-      const response = await fetch(
-        "http://localhost:3000/api/flight/express-search",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(apiPayload),
-        }
-      );
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        // window.location.href = "/login.html";
-      }
-      if (response.status === 200) {
-        console.log(response, "response");
-        const result = await response.json();
-        console.log(result, "result");
-        if (result.success === true) {
-          let TUI = result.TUI;
-          // Store results for the next page
-          localStorage.setItem("flightSearchResults", JSON.stringify(result));
-          const token = localStorage.getItem("token");
-          console.log(token, "token");
-          const getExpSearchResponse = await fetch(
-            "http://localhost:3000/api/flight/flight/getexpsearch",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-              body: JSON.stringify({ TUI }),
-            }
-          );
-          console.log("==================================");
-          const getExpSearchResult = await getExpSearchResponse.json();
-          console.log(getExpSearchResult, "getExpSearchResult");
-          console.log("=======================================");
-          if (getExpSearchResult.success) {
-            const completed =
-              getExpSearchResult.data.Completed ||
-              getExpSearchResult.data.completed;
-            if (completed === "True" || completed === true) {
-              localStorage.setItem(
-                "flightSearchResults",
-                JSON.stringify(getExpSearchResult.data)
-              );
-              console.log("✅ Flight search complete, redirecting...");
-              window.location.href = "/flight-search.html";
-            } else {
-              console.warn(
-                "🔄 Search still in progress. Consider polling again..."
-              );
-            }
-          } else {
-            console.error("❌ Failed to retrieve ExpressSearch result.");
+      try {
+
+        console.log('this is the function calling for express search');
+        
+        console.log("✈️ Initiating flight search with payload:", apiPayload);
+        const response = await tokenManager.authenticatedRequest(
+          "http://localhost:3000/api/flight/express-search", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${tokenManager.getToken()}`
+            },
+            body: JSON.stringify(apiPayload)
           }
+        );
+
+        const result = await response.json();
+        console.log("🔍 ExpressSearch API Response:", result);
+        
+        if (result.success && result.data && result.data.TUI) {
+          console.log("✅ Search initiated successfully. TUI:", result.data.TUI);
+          pollForResults(result.data.TUI);
+        } else {
+          const errorMessage = result.data.Msg ? result.data.Msg.join(', ') : 'Unknown error';
+          throw new Error("Failed to initiate flight search: " + errorMessage);
         }
-        // Navigate to results page
-        // window.location.href = "/flight-search.html";
+      } catch (error) {
+        console.error("Flight search failed:", error);
+        alert("Flight search failed: " + error.message);
+      }
+    }
+
+    async function pollForResults(tui, attempts = 0) {
+      const maxAttempts = 10;
+      const delay = 2000; // 2 seconds
+
+      if (attempts >= maxAttempts) {
+        alert("Search timed out. Please try again.");
+        return;
+      }
+
+      try {
+        console.log(`🔄 Polling for results... Attempt ${attempts + 1}`);
+        const response = await tokenManager.authenticatedRequest(
+          "http://localhost:3000/api/flight/getexpsearch", {
+            method: "POST",
+            body: JSON.stringify({ TUI: tui })
+          }
+        );
+
+        const result = await response.json();
+        console.log("📊 Polling response:", result);
+
+        if (result.success && result.data) {
+          const isCompleted = result.data.Completed || result.data.completed;
+          if (isCompleted === "True" || isCompleted === true) {
+            console.log("✅ Flight search complete!");
+            localStorage.setItem("flightSearchResults", JSON.stringify(result.data));
+            window.location.href = "/flight-search.html";
+          } else {
+            console.log("⏳ Search in progress, polling again...");
+            setTimeout(() => pollForResults(tui, attempts + 1), delay);
+          }
+        } else {
+          const errorMessage = result.data.Msg ? result.data.Msg.join(', ') : 'Unknown error';
+          throw new Error("Failed to get search results: " + errorMessage);
+        }
+      } catch (error) {
+        console.error("Polling failed:", error);
+        // Continue polling even if one attempt fails
+        setTimeout(() => pollForResults(tui, attempts + 1), delay);
       }
     }
   </script>
