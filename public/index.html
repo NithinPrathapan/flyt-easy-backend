@@ -1239,6 +1239,13 @@
             if (getExpSearchResponse.status === 200) {
               const getExpSearchResult = await getExpSearchResponse.json();
               console.log(getExpSearchResult, "getExpSearchResult");
+              if (getExpSearchResult.completed) {
+                localStorage.setItem(
+                  "flightSearchResults",
+                  JSON.stringify(getExpSearchResult)
+                );
+                window.location.href = "/flight-search.html";
+              }
             }
           }
           // Navigate to results page
