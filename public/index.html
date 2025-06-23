@@ -1236,10 +1236,10 @@
                 body: JSON.stringify({ TUI }),
               }
             );
-            console.log(getExpSearchResponse, "getExpSearchResponse");
-            if (getExpSearchResponse.success === true) {
-              const getExpSearchResult = await getExpSearchResponse.json();
-              console.log(getExpSearchResult, "getExpSearchResult");
+            const getExpSearchResult = await getExpSearchResponse.json();
+            console.log(getExpSearchResult, "getExpSearchResult");
+
+            if (getExpSearchResult.success === true) {
               if (getExpSearchResult.completed) {
                 localStorage.setItem(
                   "flightSearchResults",
