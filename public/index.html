@@ -1236,9 +1236,10 @@
                 body: JSON.stringify({ TUI }),
               }
             );
+            console.log("==================================");
             const getExpSearchResult = await getExpSearchResponse.json();
             console.log(getExpSearchResult, "getExpSearchResult");
-
+            console.log("=======================================");
             if (getExpSearchResult.success === true) {
               if (getExpSearchResult.completed) {
                 localStorage.setItem(
