@@ -1201,7 +1201,7 @@
 
         // Call the backend API
         const response = await fetch(
-          "http://147.93.18.244:5000/api/flight/express-search",
+          "http://localhost:3000/api/flight/express-search",
           {
             method: "POST",
             headers: {
@@ -1226,7 +1226,7 @@
             const token = localStorage.getItem("token");
             console.log(token, "token");
             const getExpSearchResponse = await fetch(
-              "http://147.93.18.244:5000/api/flight/flight/getexpsearch",
+              "http://localhost:3000/api/flight/flight/getexpsearch",
               {
                 method: "POST",
                 headers: {
