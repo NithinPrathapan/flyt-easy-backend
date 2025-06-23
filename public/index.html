@@ -1236,7 +1236,8 @@
                 body: JSON.stringify({ TUI }),
               }
             );
-            if (getExpSearchResponse.status === 200) {
+            console.log(getExpSearchResponse, "getExpSearchResponse");
+            if (getExpSearchResponse.success === true) {
               const getExpSearchResult = await getExpSearchResponse.json();
               console.log(getExpSearchResult, "getExpSearchResult");
               if (getExpSearchResult.completed) {

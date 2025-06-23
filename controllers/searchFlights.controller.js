@@ -98,6 +98,11 @@ export const getExpSearchFlights = async (req, res) => {
       }
     );
     console.log(response, "response");
+    return res.status(200).json({
+      success: true,
+      message: "ExpressSearch Results Retrieved",
+      data: response.data,
+    });
   } catch (error) {
     console.error(
       "ExpressSearch Error:",
