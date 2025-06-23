@@ -1242,11 +1242,11 @@
             console.log("=======================================");
             if (getExpSearchResult.success === true) {
               console.log("================inside");
-              console.log(getExpSearchResult.completed, "completed");
-              if (getExpSearchResult.completed === "True") {
+              console.log(getExpSearchResult.data.completed, "completed");
+              if (getExpSearchResult.data.completed === "True") {
                 localStorage.setItem(
                   "flightSearchResults",
-                  JSON.stringify(getExpSearchResult)
+                  JSON.stringify(getExpSearchResult.data)
                 );
                 console.log("================inside ===completed");
                 window.location.href = "/flight-search.html";
