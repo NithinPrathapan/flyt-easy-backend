@@ -1225,6 +1225,21 @@
             localStorage.setItem("flightSearchResults", JSON.stringify(result));
             const token = localStorage.getItem("token");
             console.log(token, "token");
+            const getExpSearchResponse = await fetch(
+              "http://147.93.18.244:5000/api/flight/getexpsearch",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ TUI }),
+              }
+            );
+            if (getExpSearchResponse.status === 200) {
+              const getExpSearchResult = await getExpSearchResponse.json();
+              console.log(getExpSearchResult, "getExpSearchResult");
+            }
           }
           // Navigate to results page
           // window.location.href = "/flight-search.html";
