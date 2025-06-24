@@ -2,7 +2,13 @@
 import axios from "axios";
 
 export const expressSearchFlights = async (req, res) => {
-  console.log('callingggg ===============================5');
+  console.log('=== EXPRESS SEARCH DEBUG ===');
+  console.log('Request body:', req.body);
+  console.log('Client ID:', req.clientId);
+  console.log('Token:', req.token ? 'Present' : 'Missing');
+  console.log('Environment variables:');
+  console.log('- FLIGHT_URL:', process.env.FLIGHT_URL);
+  console.log('- EXPRESS_SEARCH_PATH:', process.env.EXPRESS_SEARCH_PATH);
   
   try {
     const {
@@ -35,42 +41,71 @@ export const expressSearchFlights = async (req, res) => {
       ClientID: req.clientId,
       FareType: FareType || "ON",
       Trips,
+      Parameters: {
+        Airlines: Parameters?.Airlines || "",
+        GroupType: Parameters?.GroupType || "",
+        Refundable: Parameters?.Refundable || false,
+        IsDirect: Parameters?.IsDirect || false,
+        IsStudentFare: Parameters?.IsStudentFare || false,
+        IsNearbyAirport: Parameters?.IsNearbyAirport || false,
+      },
+      TUI: TUI || "",
+
     };
 
-    console.log('Payload sent to upstream:', payload);
+    console.log('Final payload:', payload);
+    console.log('Upstream URL:', `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`);
+    console.log('Headers:', {
+      Authorization: `Bearer ${req.token}`,
+      ClientID: req.clientId,
+      "Content-Type": "application/json",
+    });
 
     const response = await axios.post(
       `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
       payload,
       {
         headers: {
-          Authorization: req.token,
+          Authorization: `Bearer ${req.token}`,
           ClientID: req.clientId,
           "Content-Type": "application/json",
         },
       }
     );
-    console.log(response.data, "response");
-
+    
+    console.log('Upstream response:', response.data);
+    
     return res.status(200).json({
       success: true,
       message: "Express Search Results Retrieved",
       data: response.data,
     });
   } catch (error) {
-    console.error(
-      "ExpressSearch Error:",
-      error?.response?.data || error.message
-    );
+    console.error('=== UPSTREAM API ERROR ===');
+    console.error('Status:', error?.response?.status);
+    console.error('Status Text:', error?.response?.statusText);
+    console.error('Response Data:', error?.response?.data);
+    console.error('Request URL:', error?.config?.url);
+    console.error('Request Method:', error?.config?.method);
+    console.error('Request Headers:', error?.config?.headers);
+    console.error('Request Data:', error?.config?.data);
+    
     return res.status(500).json({
       success: false,
       message: "ExpressSearch failed",
       error: error?.response?.data || error.message,
+      details: {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        url: error?.config?.url
+      }
     });
   }
 };
 
 export const getExpSearchFlights = async (req, res) => {
+  console.log('callingggg ===============================5 get exp search');
+  
   const { TUI } = req.body;
   console.log(TUI, "TUI======================");
   
@@ -87,7 +122,7 @@ export const getExpSearchFlights = async (req, res) => {
       payload,
       {
         headers: {
-          Authorization: req.token,
+          Authorization: `Bearer ${req.token}`,
           ClientID: req.clientId,
         },
       }

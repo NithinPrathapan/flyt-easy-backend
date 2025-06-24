@@ -1000,6 +1000,7 @@
 
       try {
         console.log("✈️ Initiating flight search with payload:", apiPayload);
+        alert("Sending payload: " + JSON.stringify(apiPayload, null, 2));
         const response = await tokenManager.authenticatedRequest(
           `${window.appConfig.API_BASE_URL}/api/flight/express-search`, {
             method: "POST",

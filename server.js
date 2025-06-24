@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import indexRoutes from "./routes/index.routes.js";
+import hotelRoutes from "./routes/hotel.routes.js";
 import cors from "cors";
 import morgan from "morgan";
 import path from "path";
@@ -24,6 +25,7 @@ app.use(
 );
 
 app.use("/api", indexRoutes);
+app.use("/api/hotel", hotelRoutes);
 
 // const PORT = process.env.PORT || 5000;
 const PORT = 3000;

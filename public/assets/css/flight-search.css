@@ -2,9 +2,14 @@
             --bs-primary: #19427C;
             --bs-white: #FFFFFF;
             --bs-body-font-family: 'Poppins', sans-serif;
+            --text-primary: #2c3e50;
+            --text-secondary: #5a6c7d;
+            --text-muted: #7f8c8d;
+            --text-light: #95a5a6;
         }        
         body{
             background-color: #f8f9fa;
+            color: var(--text-primary);
         }
         .text-primary{
             color: var(--bs-primary) !important;
@@ -22,15 +27,18 @@
         .route-info {
             font-weight: 600;
             font-size: 1.1rem;
+            color: var(--text-primary);
         }
 
         .travel-info {
             font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
         .filter-btn {
             border-radius: 20px;
             padding: 0.5rem 1rem;
+            color: var(--text-secondary);
         }
 
         .flight-results {
@@ -78,16 +86,18 @@
 
         .flight-number {
             font-size: 0.8rem;
-            color: #666;
+            color: var(--text-muted);
             margin-top: 0.25rem;
         }
 
         .departure-time, .arrival-time {
             font-size: 1.1rem;
+            color: var(--text-primary);
         }
 
         .airport-code {
             font-size: 0.8rem;
+            color: var(--text-secondary);
         }
 
         .duration-container {
@@ -121,14 +131,17 @@
 
         .layover-info {
             font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
         .original-price {
             font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
         .final-price {
             font-size: 1.2rem;
+            color: var(--text-primary);
         }
 
         .filter-panel {
@@ -136,7 +149,7 @@
         }
 
         .filter-heading {
-            color: #333;
+            color: var(--text-primary);
             font-weight: 600;
             font-size: 0.9rem;
             letter-spacing: 0.5px;
@@ -145,6 +158,7 @@
         .price-filter-btn {
             font-size: 0.85rem;
             padding: 0.4rem 0.8rem;
+            color: var(--text-secondary);
         }
 
         .time-icon {
@@ -198,22 +212,69 @@
             padding: 1rem;
             margin-bottom: 0.5rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
         .fare-option.selected {
-            border-color: #007bff;
+            border-color: var(--bs-primary);
             background-color: #f8f9ff;
         }
 
         .fare-option:hover {
-            border-color: #007bff;
+            border-color: var(--bs-primary);
         }
 
         .lucide-icon {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             stroke: currentColor;
             stroke-width: 2;
             fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Text color updates */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+        }
+
+        .small {
+            color: var(--text-secondary);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary) !important;
+        }
+
+        .text-dark {
+            color: var(--text-primary) !important;
+        }
+
+        .modal-title {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-light);
+        }
+
+        .form-check-label {
+            color: var(--text-primary);
         }

@@ -3,11 +3,16 @@
       --bs-primary: #19427C;
       --bs-white: #FFFFFF;
       --bs-body-font-family: 'Poppins', sans-serif;
+      --text-primary: #2c3e50;
+      --text-secondary: #5a6c7d;
+      --text-muted: #7f8c8d;
+      --text-light: #95a5a6;
     }
 
     body {
         background-color: #f8f9fa;
         font-family: var(--bs-body-font-family);
+        color: var(--text-primary);
     }
 
     .bg-primary {
@@ -26,59 +31,133 @@
     .text-white {
       color: var(--bs-white) !important;
     }
-        .sticky-top {
-            position: sticky;
-            top: 0;
-            z-index: 1020;
-        }
-        
-        .logo-circle {
-            width: 36px;
-            height: 36px;
-        }
-        
-        .offcanvas {
-            width: 300px;
-        }
-        
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .menu-link {
-            transition: all 0.2s ease;
-        }
-        
-        .menu-link:hover {
-            color: #0d6efd !important;
-        }
-        .airport-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .airport-full-name {
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-        .from-to-info {
-            cursor: pointer;
-            flex: 1;
-        }
-        .divider {
-            width: 1px;
-            height: 30px;
-            background-color: #dee2e6;
-            margin: 0 15px;
-        }
-        .code-box {
-            min-width: 45px;
-            text-align: center;
-        }
-        .airport-list div:hover {
-            background-color: #f8f9fa;
-        }
-        .btn-check:checked + .btn {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            color: white;
-        }
+
+    /* Updated text colors */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary);
+    }
+
+    .fw-semibold, .fw-bold {
+        color: var(--text-primary);
+    }
+
+    .small {
+        color: var(--text-secondary);
+    }
+
+    .text-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .card-body {
+        color: var(--text-primary);
+    }
+
+    .list-group-item {
+        color: var(--text-primary);
+    }
+
+    .modal-title {
+        color: var(--text-primary);
+    }
+
+    .form-control {
+        color: var(--text-primary);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-light);
+    }
+
+    .btn {
+        color: var(--text-primary);
+    }
+
+    .btn-outline-secondary {
+        color: var(--text-secondary);
+    }
+
+    .text-secondary {
+        color: var(--text-secondary) !important;
+    }
+
+    .text-dark {
+        color: var(--text-primary) !important;
+    }
+
+    .accordion-button {
+        color: var(--text-primary);
+    }
+
+    .accordion-body {
+        color: var(--text-secondary);
+    }
+
+    .menu-link {
+        color: var(--text-primary) !important;
+    }
+
+    .menu-link:hover {
+        color: var(--bs-primary) !important;
+    }
+
+    .airport-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+    }
+
+    .airport-full-name {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .from-to-info {
+        cursor: pointer;
+        flex: 1;
+    }
+
+    .divider {
+        width: 1px;
+        height: 30px;
+        background-color: #dee2e6;
+        margin: 0 15px;
+    }
+
+    .code-box {
+        min-width: 45px;
+        text-align: center;
+    }
+
+    .airport-list div:hover {
+        background-color: #f8f9fa;
+    }
+
+    .btn-check:checked + .btn {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+    }
+
+    .sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+    }
+    
+    .logo-circle {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .offcanvas {
+        width: 300px;
+    }
+    
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .menu-link {
+        transition: all 0.2s ease;
+    }

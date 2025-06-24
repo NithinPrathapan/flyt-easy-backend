@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlytEasy - Hotel Search</title>
+    <link rel="icon" type="image/svg+xml" href="./assets//img/favicon.png"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/hotel-search.css"/>
+</head>
+<body>
+    <!-- Header -->
+    <div class="bg-white sticky-top shadow-sm">
+        <div class="container-fluid px-3 py-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-link p-1 text-dark" onclick="goBack()">
+                    <i class="fas fa-arrow-left" style="font-size: 20px"></i>
+                </button>
+                <div class="d-flex align-items-center">
+                    <img src="./assets/img/logo.png" alt="logo" width="100" />
+                </div>
+                <div style="width: 20px;"></div> <!-- Spacer for centering -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid p-3">
+        <div class="container p-3 mt-2 rounded" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
+            
+            <!-- Destination Field -->
+            <div class="card mb-3" onclick="openDestinationModal()" style="cursor: pointer">
+                <div class="card-body py-3">
+                    <small class="text-muted">Destination</small>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small fw-semibold" id="destinationName">Where are you going?</div>
+                            <small class="text-muted d-block" id="destinationDetails">Search for a city, hotel, or landmark</small>
+                        </div>
+                        <div class="small fw-semibold text-secondary">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check-in/Check-out Dates -->
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <div class="card h-100">
+                        <div class="card-body py-2">
+                            <small class="text-muted">Check-in</small>
+                            <input type="date" class="form-control p-1 border-0" id="checkInDate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card h-100">
+                        <div class="card-body py-2">
+                            <small class="text-muted">Check-out</small>
+                            <input type="date" class="form-control p-1 border-0" id="checkOutDate" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guests & Rooms -->
+            <div class="card mb-3" onclick="openGuestsModal()" style="cursor: pointer">
+                <div class="card-body py-2">
+                    <small class="text-muted">Guests & Rooms</small>
+                    <div class="small fw-semibold" id="guestsDisplay">
+                        1 Room, 2 Adults, 0 Children
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Button -->
+            <button class="btn btn-primary w-100 py-3 mb-3" onclick="handleHotelSearch()">
+                <i class="fas fa-search me-2"></i>Search Hotels
+            </button>
+        </div>
+    </div>
+
+    <!-- Popular Destinations -->
+    <div class="container-fluid px-3 mb-4">
+        <h6 class="fw-bold mb-3">Popular Destinations</h6>
+        <div class="row g-2">
+            <div class="col-6">
+                <div class="popular-destination-card" onclick="selectDestination('Mumbai', 'Maharashtra, India')">
+                    <div class="destination-image mumbai-bg"></div>
+                    <div class="destination-info">
+                        <div class="destination-name">Mumbai</div>
+                        <div class="destination-location">Maharashtra, India</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="popular-destination-card" onclick="selectDestination('Delhi', 'Delhi, India')">
+                    <div class="destination-image delhi-bg"></div>
+                    <div class="destination-info">
+                        <div class="destination-name">Delhi</div>
+                        <div class="destination-location">Delhi, India</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="popular-destination-card" onclick="selectDestination('Bangalore', 'Karnataka, India')">
+                    <div class="destination-image bangalore-bg"></div>
+                    <div class="destination-info">
+                        <div class="destination-name">Bangalore</div>
+                        <div class="destination-location">Karnataka, India</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="popular-destination-card" onclick="selectDestination('Chennai', 'Tamil Nadu, India')">
+                    <div class="destination-image chennai-bg"></div>
+                    <div class="destination-info">
+                        <div class="destination-name">Chennai</div>
+                        <div class="destination-location">Tamil Nadu, India</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Special Offers -->
+    <div class="container-fluid px-3 mb-4">
+        <h6 class="fw-bold mb-3">Special Offers</h6>
+        <div class="offer-card">
+            <div class="offer-content">
+                <div class="offer-badge">SAVE UP TO 30%</div>
+                <h6 class="offer-title">Weekend Getaways</h6>
+                <p class="offer-description">Book your weekend escape and enjoy exclusive discounts on premium hotels</p>
+                <button class="btn btn-outline-light btn-sm">Explore Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destination Selection Modal -->
+    <div class="modal fade" id="destinationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Destination</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" placeholder="Search for a city, hotel, or landmark" id="destinationSearch">
+                    
+                    <div class="destination-list" id="destinationList">
+                        <!-- Destinations will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guests & Rooms Modal -->
+    <div class="modal fade" id="guestsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Guests & Rooms</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Rooms -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <strong>Rooms</strong>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('rooms', -1)">-</button>
+                                <span class="mx-3" id="roomsCount">1</span>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('rooms', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Adults -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <strong>Adults</strong>
+                                <small class="text-muted d-block">Ages 13+</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('adults', -1)">-</button>
+                                <span class="mx-3" id="adultsCount">2</span>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('adults', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Children -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <strong>Children</strong>
+                                <small class="text-muted d-block">Ages 0-12</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('children', -1)">-</button>
+                                <span class="mx-3" id="childrenCount">0</span>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeCount('children', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="applyGuests()">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/tokenManager.js"></script>
+
+    <script>
+        // Global state variables
+        let selectedDestination = null;
+        let guests = {
+            rooms: 1,
+            adults: 2,
+            children: 0
+        };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (tokenManager.requireAuth()) {
+                setupDatePickers();
+                updateGuestsDisplay();
+            }
+        });
+
+        function setupDatePickers() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const checkInDate = document.getElementById('checkInDate');
+            const checkOutDate = document.getElementById('checkOutDate');
+            
+            checkInDate.min = today.toISOString().split('T')[0];
+            checkInDate.value = today.toISOString().split('T')[0];
+            
+            checkOutDate.min = tomorrow.toISOString().split('T')[0];
+            checkOutDate.value = tomorrow.toISOString().split('T')[0];
+            
+            // Update checkout min date when checkin changes
+            checkInDate.addEventListener('change', function() {
+                const checkIn = new Date(this.value);
+                const nextDay = new Date(checkIn);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkOutDate.min = nextDay.toISOString().split('T')[0];
+                
+                if (new Date(checkOutDate.value) <= checkIn) {
+                    checkOutDate.value = nextDay.toISOString().split('T')[0];
+                }
+            });
+        }
+
+        function openDestinationModal() {
+            new bootstrap.Modal(document.getElementById('destinationModal')).show();
+            populateDestinations();
+        }
+
+        function populateDestinations() {
+            const destinationList = document.getElementById('destinationList');
+            const searchTerm = document.getElementById('destinationSearch').value.toLowerCase();
+            
+            const destinations = [
+                { name: 'Mumbai', location: 'Maharashtra, India', code: 'BOM' },
+                { name: 'Delhi', location: 'Delhi, India', code: 'DEL' },
+                { name: 'Bangalore', location: 'Karnataka, India', code: 'BLR' },
+                { name: 'Chennai', location: 'Tamil Nadu, India', code: 'MAA' },
+                { name: 'Hyderabad', location: 'Telangana, India', code: 'HYD' },
+                { name: 'Kolkata', location: 'West Bengal, India', code: 'CCU' },
+                { name: 'Pune', location: 'Maharashtra, India', code: 'PNQ' },
+                { name: 'Ahmedabad', location: 'Gujarat, India', code: 'AMD' }
+            ];
+            
+            const filteredDestinations = destinations.filter(dest => 
+                dest.name.toLowerCase().includes(searchTerm) || 
+                dest.location.toLowerCase().includes(searchTerm)
+            );
+            
+            destinationList.innerHTML = filteredDestinations.map(dest => `
+                <div class="destination-item" onclick="selectDestination('${dest.name}', '${dest.location}')">
+                    <div class="d-flex align-items-center">
+                        <div class="destination-icon me-3">
+                            <i class="fas fa-map-marker-alt text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="fw-medium">${dest.name}</div>
+                            <small class="text-muted">${dest.location}</small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectDestination(name, location) {
+            selectedDestination = { name, location };
+            document.getElementById('destinationName').textContent = name;
+            document.getElementById('destinationDetails').textContent = location;
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('destinationModal'));
+            if (modal) modal.hide();
+        }
+
+        function openGuestsModal() {
+            new bootstrap.Modal(document.getElementById('guestsModal')).show();
+        }
+
+        function changeCount(type, change) {
+            if (type === 'rooms') {
+                guests.rooms = Math.max(1, Math.min(5, guests.rooms + change));
+                document.getElementById('roomsCount').textContent = guests.rooms;
+            } else if (type === 'adults') {
+                guests.adults = Math.max(1, Math.min(10, guests.adults + change));
+                document.getElementById('adultsCount').textContent = guests.adults;
+            } else if (type === 'children') {
+                guests.children = Math.max(0, Math.min(8, guests.children + change));
+                document.getElementById('childrenCount').textContent = guests.children;
+            }
+        }
+
+        function applyGuests() {
+            updateGuestsDisplay();
+        }
+
+        function updateGuestsDisplay() {
+            const totalGuests = guests.adults + guests.children;
+            document.getElementById('guestsDisplay').textContent = 
+                `${guests.rooms} Room${guests.rooms > 1 ? 's' : ''}, ${guests.adults} Adult${guests.adults > 1 ? 's' : ''}, ${guests.children} Child${guests.children !== 1 ? 'ren' : ''}`;
+        }
+
+        async function handleHotelSearch() {
+            if (!selectedDestination) {
+                alert('Please select a destination');
+                return;
+            }
+
+            const checkIn = document.getElementById('checkInDate').value;
+            const checkOut = document.getElementById('checkOutDate').value;
+
+            if (!checkIn || !checkOut) {
+                alert('Please select check-in and check-out dates');
+                return;
+            }
+
+            const searchData = {
+                destination: selectedDestination,
+                checkIn,
+                checkOut,
+                guests
+            };
+
+            localStorage.setItem('hotelSearchData', JSON.stringify(searchData));
+
+            try {
+                console.log('🏨 Initiating hotel search with data:', searchData);
+                
+                // TODO: Replace with actual hotel search API call
+                // const response = await tokenManager.authenticatedRequest(
+                //     `${window.appConfig.API_BASE_URL}/api/hotel/search`,
+                //     {
+                //         method: 'POST',
+                //         body: JSON.stringify(searchData)
+                //     }
+                // );
+
+                // For now, simulate API call
+                setTimeout(() => {
+                    console.log('✅ Hotel search completed (simulated)');
+                    window.location.href = '/hotel-results.html';
+                }, 1000);
+
+            } catch (error) {
+                console.error('Hotel search failed:', error);
+                alert('Hotel search failed: ' + error.message);
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Search functionality for destination modal
+        document.getElementById('destinationSearch').addEventListener('input', populateDestinations);
+    </script>
+</body>
+</html> 

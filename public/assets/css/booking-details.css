@@ -2,6 +2,10 @@
             --bs-primary: #19427C;
             --bs-white: #FFFFFF;
             --bs-body-font-family: 'Poppins', sans-serif;
+            --text-primary: #2c3e50;
+            --text-secondary: #5a6c7d;
+            --text-muted: #7f8c8d;
+            --text-light: #95a5a6;
         }
         .text-primary{
             color: var(--bs-primary) !important;
@@ -12,6 +16,7 @@
         body {
             background-color: #f8f9fa;
             font-size: 14px;
+            color: var(--text-primary);
         }
         .booking-header {
             z-index: 1030;
@@ -37,10 +42,11 @@
         .time-text {
             font-size: 1.25rem;
             font-weight: 600;
+            color: var(--text-primary);
         }
         .airport-code {
             font-size: 0.85rem;
-            color: #6c757d;
+            color: var(--text-muted);
         }
         .flight-path {
             position: relative;
@@ -61,7 +67,7 @@
             padding: 0.25rem 0.5rem;
             border-radius: 12px;
             font-size: 0.75rem;
-            color: #6c757d;
+            color: var(--text-muted);
             position: relative;
             z-index: 2;
         }
@@ -95,4 +101,45 @@
             background-color: #fff3cd;
             color: #856404;
             padding: 0.30rem 0.5rem;
+        }
+
+        /* Text color updates */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+        }
+
+        .small {
+            color: var(--text-secondary);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary) !important;
+        }
+
+        .text-dark {
+            color: var(--text-primary) !important;
+        }
+
+        .modal-title {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-light);
         }
