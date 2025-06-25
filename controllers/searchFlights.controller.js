@@ -2,14 +2,6 @@
 import axios from "axios";
 
 export const expressSearchFlights = async (req, res) => {
-  console.log('=== EXPRESS SEARCH DEBUG ===');
-  console.log('Request body:', req.body);
-  console.log('Client ID:', req.clientId);
-  console.log('Token:', req.token ? 'Present' : 'Missing');
-  console.log('Environment variables:');
-  console.log('- FLIGHT_URL:', process.env.FLIGHT_URL);
-  console.log('- EXPRESS_SEARCH_PATH:', process.env.EXPRESS_SEARCH_PATH);
-  
   try {
     const {
       ADT,
@@ -20,8 +12,9 @@ export const expressSearchFlights = async (req, res) => {
       Mode,
       FareType,
       Trips,
+      Parameters,
     } = req.body;
-    console.log(req.body, "body");
+    console.log(req.body, "body==========================================24");
 
     if (!req.clientId) {
       return res.status(401).json({
@@ -32,12 +25,12 @@ export const expressSearchFlights = async (req, res) => {
 
     // Only send required fields to upstream API
     const payload = {
-      ADT,
-      CHD,
-      INF,
+      ADT: Number(ADT),
+      CHD: Number(CHD),
+      INF: Number(INF),
       Cabin,
       Source: Source || "CF",
-      Mode: Mode || "SY",
+      Mode: Mode || "AS",
       ClientID: req.clientId,
       FareType: FareType || "ON",
       Trips,
@@ -49,32 +42,35 @@ export const expressSearchFlights = async (req, res) => {
         IsStudentFare: Parameters?.IsStudentFare || false,
         IsNearbyAirport: Parameters?.IsNearbyAirport || false,
       },
-      TUI: TUI || "",
-
     };
 
     console.log('Final payload:', payload);
-    console.log('Upstream URL:', `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`);
-    console.log('Headers:', {
-      Authorization: `Bearer ${req.token}`,
-      ClientID: req.clientId,
-      "Content-Type": "application/json",
-    });
+    // console.log('Upstream URL:', `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`);
+    // console.log('Headers: @@@@@@@@@@@@@@@@@@@@@@@@@@@@', {
+    //   Authorization: `Bearer ${req.token}`,
+    //   ClientID: req.clientId,
+    //   "Content-Type": "application/json",
+    // });
 
-    const response = await axios.post(
-      `${process.env.FLIGHT_URL}${process.env.EXPRESS_SEARCH_PATH}`,
-      payload,
+
+
+    console.log('calling hits=======================================================58');
+
+
+    const response = await fetch(
+      "https://b2bapiflights.benzyinfotech.com/flights/ExpressSearch" ,
       {
+        body: JSON.stringify(payload),
+        method: "POST",
         headers: {
           Authorization: `Bearer ${req.token}`,
-          ClientID: req.clientId,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
-    
-    console.log('Upstream response:', response.data);
-    
+    const data = await response.json();
+    console.log(data, "response.data======================================78");
+
     return res.status(200).json({
       success: true,
       message: "Express Search Results Retrieved",
@@ -89,7 +85,7 @@ export const expressSearchFlights = async (req, res) => {
     console.error('Request Method:', error?.config?.method);
     console.error('Request Headers:', error?.config?.headers);
     console.error('Request Data:', error?.config?.data);
-    
+
     return res.status(500).json({
       success: false,
       message: "ExpressSearch failed",
@@ -104,44 +100,44 @@ export const expressSearchFlights = async (req, res) => {
 };
 
 export const getExpSearchFlights = async (req, res) => {
-  console.log('callingggg ===============================5 get exp search');
-  
-  const { TUI } = req.body;
-  console.log(TUI, "TUI======================");
-  
-  const clientId = req.clientId;
-  const payload = {
-    TUI,
-    ClientID: clientId,
-  };
-  console.log(TUI, clientId, "TUI");
+  // console.log('callingggg ===============================5 get exp search');
 
-  try {
-    const response = await axios.post(
-      `${process.env.FLIGHT_URL}${process.env.GET_EXP_SEARCH}`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${req.token}`,
-          ClientID: req.clientId,
-        },
-      }
-    );
-    // console.log(response, "response");
-    return res.status(200).json({
-      success: true,
-      message: "ExpressSearch Results Retrieved",
-      data: response.data,
-    });
-  } catch (error) {
-    console.error(
-      "ExpressSearch Error:",
-      error?.response?.data || error.message
-    );
-    return res.status(500).json({
-      success: false,
-      message: "ExpressSearch failed",
-      error: error?.response?.data || error.message,
-    });
-  }
+  // const { TUI } = req.body;
+  // console.log(TUI, "TUI======================");
+
+  // const clientId = req.clientId;
+  // const payload = {
+  //   TUI,
+  //   ClientID: clientId,
+  // };
+  // console.log(TUI, clientId, "TUI");
+
+  // try {
+  //   const response = await axios.post(
+  //     `${process.env.FLIGHT_URL}${process.env.GET_EXP_SEARCH}`,
+  //     payload,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${req.token}`,
+  //         ClientID: req.clientId,
+  //       },
+  //     }
+  //   );
+  //   // console.log(response, "response");
+  //   return res.status(200).json({
+  //     success: true,
+  //     message: "ExpressSearch Results Retrieved",
+  //     data: response.data,
+  //   });
+  // } catch (error) {
+  //   console.error(
+  //     "ExpressSearch Error:",
+  //     error?.response?.data || error.message
+  //   );
+  //   return res.status(500).json({
+  //     success: false,
+  //     message: "ExpressSearch failed",
+  //     error: error?.response?.data || error.message,
+  //   });
+  // }
 };
