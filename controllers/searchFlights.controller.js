@@ -74,7 +74,7 @@ export const expressSearchFlights = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Express Search Results Retrieved",
-      data: response.data,
+      data: data
     });
   } catch (error) {
     console.error('=== UPSTREAM API ERROR ===');
@@ -100,44 +100,46 @@ export const expressSearchFlights = async (req, res) => {
 };
 
 export const getExpSearchFlights = async (req, res) => {
-  // console.log('callingggg ===============================5 get exp search');
+  console.log('callingggg ===============================5 get exp search');
 
-  // const { TUI } = req.body;
-  // console.log(TUI, "TUI======================");
+  const { TUI } = req.body;
+  console.log(TUI, "TUI======================");
 
-  // const clientId = req.clientId;
-  // const payload = {
-  //   TUI,
-  //   ClientID: clientId,
-  // };
-  // console.log(TUI, clientId, "TUI");
+  const clientId = req.clientId;
+  const payload = {
+    TUI: TUI,
+    ClientID: clientId,
+  };
+  console.log(TUI, clientId, "TUI ================================================ 113 getExpSearch");
 
-  // try {
-  //   const response = await axios.post(
-  //     `${process.env.FLIGHT_URL}${process.env.GET_EXP_SEARCH}`,
-  //     payload,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${req.token}`,
-  //         ClientID: req.clientId,
-  //       },
-  //     }
-  //   );
-  //   // console.log(response, "response");
-  //   return res.status(200).json({
-  //     success: true,
-  //     message: "ExpressSearch Results Retrieved",
-  //     data: response.data,
-  //   });
-  // } catch (error) {
-  //   console.error(
-  //     "ExpressSearch Error:",
-  //     error?.response?.data || error.message
-  //   );
-  //   return res.status(500).json({
-  //     success: false,
-  //     message: "ExpressSearch failed",
-  //     error: error?.response?.data || error.message,
-  //   });
-  // }
+  try {
+    const response = await fetch(
+      "https://b2bapiflights.benzyinfotech.com/flights/GetExpSearch",
+      {
+        body: JSON.stringify(payload),  
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${req.token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const data = await response.json();
+    console.log(data, "data");
+    return res.status(200).json({
+      success: true,
+      message: "ExpressSearch Results Retrieved",
+      data: data,
+    });
+  } catch (error) {
+    console.error(
+      "ExpressSearch Error:",
+      error?.response?.data || error.message
+    );
+    return res.status(500).json({
+      success: false,
+      message: "ExpressSearch failed",
+      error: error?.response?.data || error.message,
+    });
+  }
 };

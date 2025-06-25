@@ -1010,6 +1010,8 @@
 
         const result = await response.json();
         console.log("🔍 ExpressSearch API Response:", result);
+        console.log(result.data.TUI, "result.data.TUI");
+        
         
         if (result.success && result.data && result.data.TUI) {
           console.log("✅ Search initiated successfully. TUI:", result.data.TUI);
@@ -1036,7 +1038,7 @@
       try {
         console.log(`🔄 Polling for results... Attempt ${attempts + 1}`);
         const response = await tokenManager.authenticatedRequest(
-          `${window.appConfig.API_BASE_URL}/api/flight/getexpsearch`, {
+          `${window.appConfig.API_BASE_URL}/api/flight/get/getExpSearch`, {
             method: "POST",
             body: JSON.stringify({ TUI: tui })
           }
